@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainNavComponent } from './shared/main-nav/main-nav.component';
+import { MainNavComponent } from './core/main-nav/main-nav.component';
 
 const routes: Routes = [{ path: '', component: MainNavComponent }];
 

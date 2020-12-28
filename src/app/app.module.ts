@@ -1,4 +1,4 @@
-import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -24,9 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
-    SharedModule,
     GraphQLModule,
     HttpClientModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],
