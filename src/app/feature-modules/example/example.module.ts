@@ -7,7 +7,8 @@ import { ExampleRoutingModule } from './example-routing.module';
   declarations: [ExampleComponent],
   imports: [
     CommonModule,
-    ExampleRoutingModule
+    ExampleRoutingModule,
   ]
+
 })
 export class ExampleModule { }
