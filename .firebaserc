@@ -1,9 +1,9 @@
 {
   "targets": {
-    "angular-i-like-it": {
+    "github-i-like-it": {
       "hosting": {
         "github-i-like-it": [
-          "angular-i-like-it"
+          "github-i-like-it"
         ]
       }
     }
