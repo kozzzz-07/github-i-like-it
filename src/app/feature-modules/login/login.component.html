@@ -1,1 +1,11 @@
-<div id="firebaseui-auth-container" cass="auth-container"></div>
+<div class="page">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card class="card" [style.visibility]="isLoading ? 'hidden' : 'visible'">
+    <mat-card-header class="card-header">
+      <mat-card-title>ログイン</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div id="firebaseui-auth-container"></div>
+    </mat-card-content>
+  </mat-card>
+</div>
