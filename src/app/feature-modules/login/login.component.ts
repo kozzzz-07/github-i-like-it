@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           scopes: ['repo'],
         },
       ],
+      // signInFlow: 'popup',
       callbacks: {
         signInSuccessWithAuthResult: this.onLoginSuccessful.bind(this),
         uiShown: () => {
@@ -48,10 +49,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccessful(authResult: firebase.auth.UserCredential): boolean {
+    this.isLoading = true;
     // console.log(authResult);
-    this.authService.token = (authResult.credential as firebase.auth.OAuthCredential).accessToken || '';
+    this.authService.token =
+      (authResult.credential as firebase.auth.OAuthCredential).accessToken ||
+      '';
     this.ngZone.run(() => {
       this.router.navigateByUrl('/list');
+      this.isLoading = false;
     });
 
     return false;
