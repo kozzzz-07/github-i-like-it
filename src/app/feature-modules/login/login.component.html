@@ -1,6 +1,10 @@
 <div class="page">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-card class="card" [style.visibility]="isLoading ? 'hidden' : 'visible'">
+  <mat-card
+    class="card"
+    [style.visibility]="isLoading ? 'hidden' : 'visible'"
+    *ngIf="!isLogining"
+  >
     <mat-card-header class="card-header">
       <mat-card-title>ログイン</mat-card-title>
     </mat-card-header>

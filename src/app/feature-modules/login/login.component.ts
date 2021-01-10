@@ -12,6 +12,7 @@ import * as firebaseui from 'firebaseui';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   isLoading = true;
+  isLogining = false;
   ui: firebaseui.auth.AuthUI | undefined;
 
   constructor(
@@ -49,14 +50,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccessful(authResult: firebase.auth.UserCredential): boolean {
-    this.isLoading = true;
-    // console.log(authResult);
+    this.isLogining = true;
+    console.log({ authResult });
     this.authService.token =
       (authResult.credential as firebase.auth.OAuthCredential).accessToken ||
       '';
     this.ngZone.run(() => {
       this.router.navigateByUrl('/list');
-      this.isLoading = false;
     });
 
     return false;
