@@ -17,7 +17,6 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
     const newReq = this.addToken(req, this.exampleService.getToken());
 
     return next.handle(newReq).pipe(
