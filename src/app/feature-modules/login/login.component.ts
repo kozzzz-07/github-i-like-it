@@ -1,3 +1,4 @@
+import { AuthService } from './../../core/services/auth.service';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService
   ) {}
 
   ngOnDestroy(): void {
@@ -46,7 +48,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccessful(authResult: firebase.auth.UserCredential): boolean {
-    console.log(authResult);
+    // console.log(authResult);
+    this.authService.token = (authResult.credential as firebase.auth.OAuthCredential).accessToken || '';
     this.ngZone.run(() => {
       this.router.navigateByUrl('/list');
     });
