@@ -16,6 +16,12 @@ export class AppGuard implements CanActivate, CanLoad {
 
   canLoad(): Observable<boolean> {
     return this.authService.isLoggedIn$.pipe(
+      tap(async () => {
+        if (!this.authService.token) {
+          // リロード等によるtokenの消失時もloginへ
+          await this.authService.logOut();
+        }
+      }),
       tap((isLoggedIn) => {
         if (!isLoggedIn) {
           this.router.navigate(['/login']);
