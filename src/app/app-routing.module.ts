@@ -1,20 +1,22 @@
 import { LoginComponent } from './feature-modules/login/login.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { MainNavComponent } from './core/components/main-nav/main-nav.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AppGuard } from './core/guards/app.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [],
+    canActivate: [AuthGuard],
   },
   {
     path: '',
     component: MainNavComponent,
-    // canActivate: [],
-    // canLoad: [],
+    canActivate: [AppGuard],
+    canLoad: [AppGuard],
     children: [
       {
         path: '',
