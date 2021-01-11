@@ -28,16 +28,14 @@
         <span>github-i-like-it</span>
       </div>
       <div>
-        <button mat-button [matMenuTriggerFor]="menu">
-          <img
-            src="https://avatars2.githubusercontent.com/u/64407592?v=4"
-            alt="avatar"
-            class="user-avatar"
-          />
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onLogOut()">ログアウト</button>
-        </mat-menu>
+        <ng-container *ngIf="user$ | async as user">
+          <button mat-button [matMenuTriggerFor]="menu">
+            <img src="{{ user?.photoURL }}" alt="avatar" class="user-avatar" />
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onLogOut()">ログアウト</button>
+          </mat-menu>
+        </ng-container>
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
