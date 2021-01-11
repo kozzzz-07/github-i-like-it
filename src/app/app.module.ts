@@ -32,7 +32,7 @@ import { LoginModule } from './feature-modules/login/login.module';
     CoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    LoginModule
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
