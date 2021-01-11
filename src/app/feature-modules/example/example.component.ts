@@ -32,16 +32,14 @@ export class ExampleComponent implements OnInit, OnDestroy {
   }
 
   getMe(): void {
-    this.s$ = this.exampleService.query().subscribe(me => {
+    this.s$ = this.exampleService.query().subscribe((me) => {
       this.me = me.data.viewer.login;
     });
   }
 
   getRepo(): void {
-    this.s2$ = this.exampleService.query2().subscribe(ret => {
+    this.s2$ = this.exampleService.query2().subscribe((ret) => {
       this.repo = ret;
     });
   }
 }
-
-

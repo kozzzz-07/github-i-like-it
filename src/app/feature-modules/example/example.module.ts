@@ -6,11 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [ExampleComponent],
-  imports: [
-    CommonModule,
-    ExampleRoutingModule,
-    HttpClientModule
-  ]
-
+  imports: [CommonModule, ExampleRoutingModule, HttpClientModule],
 })
-export class ExampleModule { }
+export class ExampleModule {}

@@ -6,11 +6,6 @@ import { MaterialModule } from 'src/app/shared/material.module';
 
 @NgModule({
   declarations: [LoginComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MaterialModule,
-  ]
-
+  imports: [CommonModule, RouterModule, MaterialModule],
 })
-export class LoginModule { }
+export class LoginModule {}
