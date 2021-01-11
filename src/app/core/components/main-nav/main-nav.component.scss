@@ -15,3 +15,12 @@
   top: 0;
   z-index: 1;
 }
+
+.toolbar {
+  justify-content: space-between;
+}
+
+.user-avatar {
+  max-height: 35px;
+  border-radius: 4px;
+}
