@@ -13,6 +13,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { LoginModule } from './feature-modules/login/login.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,17 +21,18 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
-    GraphQLModule,
     HttpClientModule,
+    // StoreModule.forRoot({}, {}),
+    // StoreDevtoolsModule.instrument({
+    //   maxAge: 25,
+    //   logOnly: environment.production,
+    // }),
+    // EffectsModule.forRoot([]),
+    GraphQLModule,
     CoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

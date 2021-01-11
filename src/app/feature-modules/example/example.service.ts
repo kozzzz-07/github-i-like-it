@@ -1,9 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ApolloQueryResult } from '@apollo/client/core/types';
 import { QueryOptions } from '@apollo/client/core/watchQueryOptions';
 import { Apollo, gql } from 'apollo-angular';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +14,11 @@ export class ExampleService {
   private token = '';
   private _user$ = new BehaviorSubject<User>({});
 
-  constructor(private auth: AngularFireAuth, private apollo: Apollo) {}
+  constructor(
+    private auth: AngularFireAuth,
+    private apollo: Apollo,
+    private http: HttpClient
+  ) {}
 
   getToken(): string {
     return this.token;
@@ -74,6 +79,12 @@ export class ExampleService {
       query: ME,
     };
     return this.apollo.query(options);
+  }
+
+  // 疎通
+  query2(): Observable<any> {
+    const url = 'https://api.github.com/user/repos';
+    return this.http.get(url);
   }
 }
 

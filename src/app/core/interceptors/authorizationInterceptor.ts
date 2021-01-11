@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import {
   HttpEvent,
   HttpHandler,
@@ -7,19 +8,19 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ExampleService } from './example.service';
 
 @Injectable()
 export class AuthorizationInterceptor implements HttpInterceptor {
-  constructor(private exampleService: ExampleService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const newReq = this.addToken(req, this.exampleService.getToken());
-
-    return next.handle(newReq).pipe(
+    if (this.authService.token) {
+      req = this.addToken(req, this.authService.token);
+    }
+    return next.handle(req).pipe(
       catchError((error) => {
         return throwError(error);
       })
