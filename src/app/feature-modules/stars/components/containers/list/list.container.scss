@@ -1,0 +1,42 @@
+.others {
+  display: flex;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.list-item {
+  max-width: 904px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item {
+  margin-right: 8px;
+}
+
+.item-group {
+  display: flex;
+  margin-right: 8px;
+}
+
+.item-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.repo-language-color {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.main-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.star-icon {
+  font-size: 21px;
+}
