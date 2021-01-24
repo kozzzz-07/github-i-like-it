@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class StarsService {
   constructor(private apolloService: ApolloService) {}
 
-  getStarredRepositories(): Observable<ApolloQueryResult<unknown>> {
+  getMyStarredRepositories(): Observable<ApolloQueryResult<unknown>> {
     const options: QueryOptions = {
       query: STARRED_REPOSITORIES,
     };

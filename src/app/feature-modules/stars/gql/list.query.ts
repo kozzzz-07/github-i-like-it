@@ -1,10 +1,15 @@
 import { gql } from '@apollo/client/core';
 
 export const STARRED_REPOSITORIES = gql`
-  {
+  query($first: Int, $after: String, $last: Int, $before: String) {
     viewer {
       login
-      starredRepositories {
+      starredRepositories(
+        first: $first
+        after: $after
+        last: $last
+        before: $before
+      ) {
         totalCount
         pageInfo {
           endCursor
