@@ -1,0 +1,13 @@
+overwrite: true
+# schema: "https://api.github.com/graphql"
+schema: ./schema.docs.graphql
+# documents: "src/**/*.graphql"
+generates:
+  src/app/models/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"
+#  ./graphql.schema.json:
+#    plugins:
+#      - "introspection"
