@@ -21,8 +21,8 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./feature-modules/stars/list.module').then(
-            (m) => m.ListModule
+          import('./feature-modules/stars/stars.module').then(
+            (m) => m.StarsModule
           ),
       },
       {
