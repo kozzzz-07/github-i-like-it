@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListPageComponent } from './components/page/list.page';
+import { StarsPageComponent } from './components/page/stars.page';
 import { StarsRoutingModule } from './stars-routing.module';
 import { ListContainerComponent } from './components/containers/list/list.container';
 import { ListPresentationComponent } from './components/presentations/list/list.presentation';
@@ -9,7 +9,7 @@ import { PaginationModule } from 'src/app/shared/components/pagination/paginatio
 
 @NgModule({
   declarations: [
-    ListPageComponent,
+    StarsPageComponent,
     ListContainerComponent,
     ListPresentationComponent,
   ],
