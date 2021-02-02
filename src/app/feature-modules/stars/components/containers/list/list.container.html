@@ -73,11 +73,9 @@
     </div>
   </mat-list-item>
 </mat-list>
-<!-- TODO: ページネーション -->
-<mat-paginator
-  [length]="starredRepositories.totalCount"
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 25, 50]"
-  (page)="pageEvent($event)"
+<!-- TODO: presentationalで包んだ方がいいのかな -->
+<app-pagination
+  [totalCount]="starredRepositories.totalCount"
+  (paginate)="onPagenate($event)"
 >
-</mat-paginator>
+</app-pagination>

@@ -1,7 +1,16 @@
+import { PageEvent } from '@angular/material/paginator';
+
 export type FirstPage = {
   first: number;
   after?: undefined;
   last?: undefined;
+  before?: undefined;
+};
+
+type LastPage = {
+  first?: undefined;
+  after?: undefined;
+  last: number;
   before?: undefined;
 };
 
@@ -21,3 +30,7 @@ export type PreviousPage = {
 
 export type Pagination = FirstPage | NextPage | PreviousPage;
 
+export interface PageChangeEvent extends PageEvent {
+  isNext: boolean;
+  isFirstPage: boolean;
+}
