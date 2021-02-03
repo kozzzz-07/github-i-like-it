@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-presentational-item',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./item.presentational.scss'],
 })
 export class ItemPresentationalComponent implements OnInit {
+  @Input() repository: any;
   constructor() {}
 
   ngOnInit(): void {}
