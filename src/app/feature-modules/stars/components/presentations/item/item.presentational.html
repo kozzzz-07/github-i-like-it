@@ -1,0 +1,54 @@
+<mat-divider *ngIf="!last"></mat-divider>
+<img
+  matListAvatar
+  src="{{repository.node.openGraphImageUrl}}"
+  alt="{{repository.node.owner}}"
+/>
+<div mat-line>
+  <div class="main-line">
+    <a href="{{repository.node.url}}" target="_blank" rel="noopener noreferrer"
+      >{{repository.node.nameWithOwner}}</a
+    >
+    <button mat-stroked-button fontSet="material-icons-two-tone">
+      <mat-icon class="star-icon">star</mat-icon> Unstar
+      <mat-icon class="star-icon">star_outline</mat-icon> Star
+    </button>
+  </div>
+</div>
+<div mat-line>{{repository.node.description}}</div>
+<div mat-line>
+  <span class="others">
+    <a class="item-group">
+      <mat-icon>star_outline</mat-icon>
+      <span class="item-center"> {{repository.node.stargazerCount}} </span>
+    </a>
+    <a class="item-group">
+      <mat-icon>call_split</mat-icon>
+      <span class="item-center"> {{repository.node.forkCount}} </span>
+    </a>
+    <a class="item-group">
+      <mat-icon>info_outline</mat-icon>
+      <span class="item-center"> {{repository.node.issues.totalCount}} </span>
+    </a>
+    <a class="item-group">
+      <mat-icon fontSet="material-icons-outlined">remove_red_eye</mat-icon>
+      <span class="item-center"> {{repository.node.watchers.totalCount}} </span>
+    </a>
+  </span>
+</div>
+<div mat-line>
+  <span class="others">
+    <span class="item-group">
+      <span
+        class="repo-language-color item-center"
+        [style.background-color]="repository.node.primaryLanguage.color"
+      ></span>
+      <span class="item-center">{{repository.node.primaryLanguage.name}}</span>
+    </span>
+    <div class="item" *ngIf="repository.node.licenseInfo">
+      License: {{repository.node.licenseInfo.nickname ?
+      repository.node.licenseInfo.nickname : repository.node.licenseInfo.name }}
+    </div>
+    <div>Updated on {{repository.node.updatedAt | date}}</div>
+  </span>
+</div>
