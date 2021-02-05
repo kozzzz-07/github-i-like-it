@@ -1,9 +1,10 @@
-import { StarsState, StarsStore } from '../../../component-store/stars.store';
+import { tap } from 'rxjs/operators';
+import { StarsStore } from '../../../component-store/stars.store';
 import {
+  LastPage,
   NextPage,
   PreviousPage,
 } from './../../../../../models/pagination.model';
-import { StarsService } from './../../../services/stars.service';
 import { Component, OnInit } from '@angular/core';
 import { FirstPage, PageChangeEvent } from 'src/app/models/pagination.model';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/pagination';
@@ -15,50 +16,56 @@ import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/p
   providers: [StarsStore],
 })
 export class ListContainerComponent implements OnInit {
-  starredRepositories: any = [];
+  startCursor = '';
+  endCursor = '';
 
-  startCursor: StarsState['startCursor'] = '';
-  endCursor: StarsState['endCursor'] = '';
+  startCursor$ = this.starsStore.selectStartCursor().pipe(
+    tap(() => {
+      console.log('++startCursor++');
+    })
+  );
+  endCursor$ = this.starsStore.selectEndCursor().pipe(
+    tap(() => {
+      console.log('++endCursor++');
+    })
+  );
+  edges$ = this.starsStore.selectEdges().pipe(
+    tap(() => {
+      console.log('++edges++');
+    })
+  );
+  totalCount$ = this.starsStore.selectTotalCount().pipe(
+    tap(() => {
+      console.log('++totalCount++');
+    })
+  );
 
-  constructor(
-    private readonly starsService: StarsService,
-    private readonly starsStore: StarsStore
-  ) {}
+  constructor(private readonly starsStore: StarsStore) {}
 
   ngOnInit(): void {
     const page: FirstPage = {
       first: DEFAULT_PAGE_SIZE,
     };
-
-    // serviceでsubjectを返すようにする
-    this.starsService
-      .getMyStarredRepositories(page)
-      .subscribe((repositories) => {
-        console.log(repositories);
-        this.starredRepositories = (repositories as any).data.viewer.starredRepositories;
-
-        this.updateEndCursor(this.starredRepositories.pageInfo.endCursor);
-      });
+    this.starsStore.getMyStarredRepositories(page);
 
     // TODO: unsubscribe
-    this.starsStore.startCursor$.subscribe((startCursor) => {
+    this.startCursor$.subscribe((startCursor) => {
       console.log({ startCursor });
-
-      this.startCursor = startCursor;
+      this.startCursor = startCursor || '';
     });
 
-    // TODO: unsubscribe
-    this.starsStore.endCursor$.subscribe((endCursor) => {
+    this.endCursor$.subscribe((endCursor) => {
       console.log({ endCursor });
-      this.endCursor = endCursor;
+      this.endCursor = endCursor || '';
     });
   }
 
   onPagenate(event: Readonly<PageChangeEvent>): void {
     console.log(event);
-    // FirstPage / lastpage
     if (event.isFirstPage) {
       this.goFirst(event);
+    } else if (event.isLastPage) {
+      this.goLast(event);
     } else if (event.isNext) {
       this.goNext(event);
     } else {
@@ -70,17 +77,16 @@ export class ListContainerComponent implements OnInit {
     const page: FirstPage = {
       first: event.pageSize,
     };
-
     console.log('FirstPage', page);
-    this.starsService
-      .getMyStarredRepositories(page)
-      .subscribe((repositories) => {
-        console.log(repositories);
-        this.starredRepositories = (repositories as any).data.viewer.starredRepositories;
+    this.starsStore.getMyStarredRepositories(page);
+  }
 
-        this.updateStartCursor(this.starredRepositories.pageInfo.startCursor);
-        this.updateEndCursor(this.starredRepositories.pageInfo.endCursor);
-      });
+  private goLast(event: PageChangeEvent): void {
+    const page: LastPage = {
+      last: event.requestedLastSize,
+    };
+    console.log('LastPage', page);
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   private goNext(event: PageChangeEvent): void {
@@ -90,15 +96,7 @@ export class ListContainerComponent implements OnInit {
     };
 
     console.log('NextPage', page);
-    this.starsService
-      .getMyStarredRepositories(page)
-      .subscribe((repositories) => {
-        console.log(repositories);
-        this.starredRepositories = (repositories as any).data.viewer.starredRepositories;
-
-        this.updateStartCursor(this.starredRepositories.pageInfo.startCursor);
-        this.updateEndCursor(this.starredRepositories.pageInfo.endCursor);
-      });
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   private goPrevious(event: PageChangeEvent): void {
@@ -108,23 +106,6 @@ export class ListContainerComponent implements OnInit {
     };
 
     console.log('PreviousPage', page);
-
-    this.starsService
-      .getMyStarredRepositories(page)
-      .subscribe((repositories) => {
-        console.log(repositories);
-        this.starredRepositories = (repositories as any).data.viewer.starredRepositories;
-
-        this.updateStartCursor(this.starredRepositories.pageInfo.startCursor);
-        this.updateEndCursor(this.starredRepositories.pageInfo.endCursor);
-      });
-  }
-
-  private updateStartCursor(startCursor: string): void {
-    this.starsStore.updateStartCursor(startCursor);
-  }
-
-  private updateEndCursor(endCursor: string): void {
-    this.starsStore.updateEndCursor(endCursor);
+    this.starsStore.getMyStarredRepositories(page);
   }
 }

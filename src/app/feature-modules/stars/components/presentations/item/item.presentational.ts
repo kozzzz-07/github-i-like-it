@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Repository } from 'src/app/models/graphql';
+import { Edge } from 'src/app/models/stars.model';
 
 @Component({
   selector: 'app-presentational-item',
@@ -6,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./item.presentational.scss'],
 })
 export class ItemPresentationalComponent implements OnInit {
-  @Input() repository: any;
+  @Input() edge: any;
   constructor() {}
 
   ngOnInit(): void {}
