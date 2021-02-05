@@ -1,6 +1,5 @@
 <mat-list>
-  <div mat-subheader>Starred Repositories</div>
-  <mat-divider></mat-divider>
+  <app-subheader></app-subheader>
   <ng-container *ngIf="edges$ | async as edges">
     <ng-container *ngFor="let edge of edges; last as last">
       <app-presentational-item [edge]="edge"></app-presentational-item>

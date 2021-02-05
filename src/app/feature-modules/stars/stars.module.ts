@@ -6,12 +6,14 @@ import { ListContainerComponent } from './components/containers/list/list.contai
 import { ItemPresentationalComponent } from './components/presentations/item/item.presentational';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { PaginationModule } from 'src/app/shared/components/pagination/pagination.module';
+import { SubheaderComponent } from './components/presentations/subheader/subheader.component';
 
 @NgModule({
   declarations: [
     StarsPageComponent,
     ListContainerComponent,
     ItemPresentationalComponent,
+    SubheaderComponent,
   ],
   imports: [CommonModule, StarsRoutingModule, MaterialModule, PaginationModule],
 })
