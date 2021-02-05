@@ -7,7 +7,7 @@ export type FirstPage = {
   before?: undefined;
 };
 
-type LastPage = {
+export type LastPage = {
   first?: undefined;
   after?: undefined;
   last: number;
@@ -28,9 +28,11 @@ export type PreviousPage = {
   after?: undefined;
 };
 
-export type Pagination = FirstPage | NextPage | PreviousPage;
+export type Pagination = FirstPage | LastPage | NextPage | PreviousPage;
 
 export interface PageChangeEvent extends PageEvent {
   isNext: boolean;
   isFirstPage: boolean;
+  isLastPage: boolean;
+  requestedLastSize: number;
 }

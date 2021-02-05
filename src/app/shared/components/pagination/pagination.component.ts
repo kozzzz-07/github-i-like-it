@@ -13,26 +13,33 @@ export class PaginationComponent implements OnInit {
   @Input() pageSize = DEFAULT_PAGE_SIZE;
   @Output() paginate = new EventEmitter<Readonly<PageChangeEvent>>();
 
-  lastPageIndex = 0;
-
   readonly PAGE_SIZE_OPTIONS = PAGE_SIZE_OPTIONS;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  private isNext(pageIndex: number): boolean {
-    return this.lastPageIndex < pageIndex;
+  private isNext(
+    pageIndex: Readonly<number>,
+    previousPageIndex: Readonly<number> = 0
+  ): boolean {
+    return pageIndex > previousPageIndex;
   }
 
   pageEvent(event: PageEvent): void {
-    const isNext = this.isNext(event.pageIndex);
+    const isNext = this.isNext(event.pageIndex, event.previousPageIndex);
+    // TODO: 関数化
     const isFirstPage = event.pageIndex === 0;
+    const startLength = event.pageSize * event.pageIndex;
+    const requestedLastSize = event.length - startLength;
+    const isLastPage = event.pageSize > requestedLastSize;
 
     const changeEvent: PageChangeEvent = {
       ...event,
       isNext,
       isFirstPage,
+      isLastPage,
+      requestedLastSize,
     };
 
     this.paginate.emit(changeEvent);
