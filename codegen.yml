@@ -1,7 +1,7 @@
 overwrite: true
 # schema: "https://api.github.com/graphql"
 schema: ./schema.docs.graphql
-# documents: "src/**/*.graphql"
+documents: ./src/app/**/gql/*.ts
 generates:
   src/app/models/graphql.ts:
     plugins:
