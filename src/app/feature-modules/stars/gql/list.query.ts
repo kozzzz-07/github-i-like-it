@@ -1,7 +1,12 @@
 import { gql } from '@apollo/client/core';
 
 export const STARRED_REPOSITORIES = gql`
-  query starredMyRepositories($first: Int, $after: String, $last: Int, $before: String) {
+  query starredMyRepositories(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+  ) {
     viewer {
       id
       login
@@ -46,15 +51,15 @@ export const STARRED_REPOSITORIES = gql`
               name
               nickname
             }
-            repositoryTopics(first: 10) {
-              edges {
-                node {
-                  topic {
-                    name
-                  }
-                }
-              }
-            }
+            # repositoryTopics(first: 10) {
+            #   edges {
+            #     node {
+            #       topic {
+            #         name
+            #       }
+            #     }
+            #   }
+            # }
           }
           starredAt
         }

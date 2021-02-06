@@ -2,7 +2,7 @@
   <app-subheader></app-subheader>
   <ng-container *ngIf="edges$ | async as edges">
     <ng-container *ngFor="let edge of edges; last as last">
-      <app-presentational-item [edge]="edge"></app-presentational-item>
+      <app-presentational-item [node]="edge?.node"></app-presentational-item>
       <mat-divider *ngIf="!last"></mat-divider>
     </ng-container>
   </ng-container>

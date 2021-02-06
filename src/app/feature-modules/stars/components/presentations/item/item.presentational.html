@@ -1,55 +1,53 @@
-<mat-list-item class="list-item">
-  <img
-    matListAvatar
-    src="{{edge.node.openGraphImageUrl}}"
-    alt="{{edge.node.owner}}"
-  />
-  <div mat-line>
-    <div class="main-line">
-      <a href="{{edge.node.url}}" target="_blank" rel="noopener noreferrer"
-        >{{edge.node.nameWithOwner}}</a
-      >
-      <button mat-stroked-button fontSet="material-icons-two-tone">
-        <mat-icon class="star-icon">star</mat-icon> Unstar
-        <mat-icon class="star-icon">star_outline</mat-icon> Star
-      </button>
-    </div>
-  </div>
-  <div mat-line>{{edge.node.description}}</div>
-  <div mat-line>
-    <span class="others">
-      <a class="item-group">
-        <mat-icon>star_outline</mat-icon>
-        <span class="item-center"> {{edge.node.stargazerCount}} </span>
-      </a>
-      <a class="item-group">
-        <mat-icon>call_split</mat-icon>
-        <span class="item-center"> {{edge.node.forkCount}} </span>
-      </a>
-      <a class="item-group">
-        <mat-icon>info_outline</mat-icon>
-        <span class="item-center"> {{edge.node.issues.totalCount}} </span>
-      </a>
-      <a class="item-group">
-        <mat-icon fontSet="material-icons-outlined">remove_red_eye</mat-icon>
-        <span class="item-center"> {{edge.node.watchers.totalCount}} </span>
-      </a>
-    </span>
-  </div>
-  <div mat-line>
-    <span class="others">
-      <span class="item-group">
-        <span
-          class="repo-language-color item-center"
-          [style.background-color]="edge.node.primaryLanguage.color"
-        ></span>
-        <span class="item-center">{{edge.node.primaryLanguage.name}}</span>
-      </span>
-      <div class="item" *ngIf="edge.node.licenseInfo">
-        License: {{edge.node.licenseInfo.nickname ?
-        edge.node.licenseInfo.nickname : edge.node.licenseInfo.name }}
+<ng-container *ngIf="node">
+  <mat-list-item class="list-item">
+    <img matListAvatar src="{{node.openGraphImageUrl}}" alt="{{node.name}}" />
+    <div mat-line>
+      <div class="main-line">
+        <a href="{{node.url}}" target="_blank" rel="noopener noreferrer"
+          >{{node.nameWithOwner}}</a
+        >
+        <button mat-stroked-button fontSet="material-icons-two-tone">
+          <mat-icon class="star-icon">star</mat-icon> Unstar
+          <mat-icon class="star-icon">star_outline</mat-icon> Star
+        </button>
       </div>
-      <div>Updated on {{edge.node.updatedAt | date}}</div>
-    </span>
-  </div>
-</mat-list-item>
+    </div>
+    <div mat-line>{{node.description}}</div>
+    <div mat-line>
+      <span class="others">
+        <a class="item-group">
+          <mat-icon>star_outline</mat-icon>
+          <span class="item-center"> {{node.stargazerCount}} </span>
+        </a>
+        <a class="item-group">
+          <mat-icon>call_split</mat-icon>
+          <span class="item-center"> {{node.forkCount}} </span>
+        </a>
+        <a class="item-group">
+          <mat-icon>info_outline</mat-icon>
+          <span class="item-center"> {{node.issues.totalCount}} </span>
+        </a>
+        <a class="item-group">
+          <mat-icon fontSet="material-icons-outlined">remove_red_eye</mat-icon>
+          <span class="item-center"> {{node.watchers.totalCount}} </span>
+        </a>
+      </span>
+    </div>
+    <div mat-line>
+      <span class="others">
+        <span class="item-group">
+          <span
+            class="repo-language-color item-center"
+            [style.background-color]="node.primaryLanguage?.color"
+          ></span>
+          <span class="item-center">{{node.primaryLanguage?.name}}</span>
+        </span>
+        <div class="item" *ngIf="node.licenseInfo">
+          License: {{node.licenseInfo.nickname ? node.licenseInfo.nickname :
+          node.licenseInfo.name }}
+        </div>
+        <div>Updated on {{node.updatedAt | date}}</div>
+      </span>
+    </div>
+  </mat-list-item>
+</ng-container>
