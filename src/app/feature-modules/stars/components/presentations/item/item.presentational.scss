@@ -40,3 +40,39 @@
 .star-icon {
   font-size: 21px;
 }
+
+.link-group {
+  display: flex;
+}
+
+.link-url {
+  color: blue;
+  text-decoration: none;
+}
+
+// 入れ子にすると動かない・・
+.link-url:hover {
+  text-decoration: underline;
+}
+
+.link-url:active {
+  text-decoration: underline;
+}
+
+.link-icon {
+  color: inherit;
+  text-decoration: none;
+
+  :link {
+    color: inherit;
+  }
+  :visited {
+    color: inherit;
+  }
+  :hover {
+    color: blue;
+  }
+  :active {
+    color: blue;
+  }
+}
