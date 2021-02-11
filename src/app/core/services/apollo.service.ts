@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   ApolloQueryResult,
+  FetchResult,
+  MutationOptions,
   QueryOptions,
   WatchQueryOptions,
 } from '@apollo/client/core';
-import { Apollo, QueryRef } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { EmptyObject } from 'apollo-angular/types';
 import { Observable } from 'rxjs';
 
@@ -24,5 +26,11 @@ export class ApolloService {
     options: WatchQueryOptions<TVariables>
   ): Observable<ApolloQueryResult<unknown>> {
     return this.apollo.watchQuery(options).valueChanges;
+  }
+
+  mutate<T, V = EmptyObject>(
+    options: MutationOptions<T, V>
+  ): Observable<FetchResult<T>> {
+    return this.apollo.mutate(options);
   }
 }

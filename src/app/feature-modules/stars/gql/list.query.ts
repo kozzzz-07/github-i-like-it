@@ -35,6 +35,7 @@ export const STARRED_REPOSITORIES = gql`
             stargazerCount
             openGraphImageUrl
             forkCount
+            viewerHasStarred
             issues {
               totalCount
             }

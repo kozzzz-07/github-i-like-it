@@ -1,7 +1,9 @@
+import { MutationRemoveStarArgs } from './../../../models/graphql';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { MutationAddStarArgs } from 'src/app/models/graphql';
 import { Pagination } from 'src/app/models/pagination.model';
 import {
   PageInfo,
@@ -46,6 +48,39 @@ export class StarsStore extends ComponentStore<StarsState> {
                 );
               },
               (error) => console.error
+            )
+          )
+        )
+      );
+    }
+  );
+
+  readonly addStar = this.effect((input$: Observable<MutationAddStarArgs>) => {
+    return input$.pipe(
+      switchMap((input) =>
+        this.starsService.addStar(input).pipe(
+          tapResponse(
+            (ret) => {
+              console.log('ret', ret);
+            },
+            // TODO: errorプロパティに含める
+            (error) => console.error(error)
+          )
+        )
+      )
+    );
+  });
+
+  readonly removeStar = this.effect(
+    (input$: Observable<MutationRemoveStarArgs>) => {
+      return input$.pipe(
+        switchMap((input) =>
+          this.starsService.removeStar(input).pipe(
+            tapResponse(
+              (ret) => {
+                console.log('ret', ret);
+              },
+              (error) => console.error(error)
             )
           )
         )

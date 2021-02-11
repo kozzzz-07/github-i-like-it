@@ -19713,6 +19713,7 @@ export type StarredMyRepositoriesQuery = { __typename?: 'Query' } & {
                       | 'stargazerCount'
                       | 'openGraphImageUrl'
                       | 'forkCount'
+                      | 'viewerHasStarred'
                       | 'url'
                       | 'description'
                     > & {
@@ -19780,6 +19781,7 @@ export const StarredMyRepositoriesDocument = gql`
             stargazerCount
             openGraphImageUrl
             forkCount
+            viewerHasStarred
             issues {
               totalCount
             }

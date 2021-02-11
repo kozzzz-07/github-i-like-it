@@ -1,3 +1,5 @@
+import { RemoveStarInput } from './../../../../../models/graphql';
+import { StarsService } from './../../../services/stars.service';
 import { tap } from 'rxjs/operators';
 import { StarsStore } from '../../../component-store/stars.store';
 import {
@@ -8,6 +10,8 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { FirstPage, PageChangeEvent } from 'src/app/models/pagination.model';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/pagination';
+import { Node } from 'src/app/models/stars.model';
+import { AddStarInput } from 'src/app/models/graphql';
 
 @Component({
   selector: 'app-container-list',
@@ -40,7 +44,10 @@ export class ListContainerComponent implements OnInit {
     })
   );
 
-  constructor(private readonly starsStore: StarsStore) {}
+  constructor(
+    private readonly starsStore: StarsStore,
+    private readonly starsService: StarsService
+  ) {}
 
   ngOnInit(): void {
     const page: FirstPage = {
@@ -107,5 +114,19 @@ export class ListContainerComponent implements OnInit {
 
     console.log('PreviousPage', page);
     this.starsStore.getMyStarredRepositories(page);
+  }
+
+  addStar(id: Node['id']): void {
+    const input: AddStarInput = {
+      starrableId: id,
+    };
+    this.starsStore.addStar({ input });
+  }
+
+  removeStar(id: Node['id']): void {
+    const input: RemoveStarInput = {
+      starrableId: id,
+    };
+    this.starsStore.removeStar({ input });
   }
 }
