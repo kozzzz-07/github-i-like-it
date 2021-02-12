@@ -107,6 +107,9 @@
         <div>Updated on {{node.updatedAt | date}}</div>
       </span>
     </div>
+    <div mat-line>
+      <app-collapsible-error-area></app-collapsible-error-area>
+    </div>
   </mat-list-item>
   <mat-divider *ngIf="!islastItem"></mat-divider>
 </ng-container>

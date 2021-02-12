@@ -7,6 +7,7 @@ import { ItemPresentationalComponent } from './components/presentations/item/ite
 import { MaterialModule } from 'src/app/shared/material.module';
 import { PaginationModule } from 'src/app/shared/components/pagination/pagination.module';
 import { SubheaderComponent } from './components/presentations/subheader/subheader.component';
+import { CollapsibleErrorAreaModule } from 'src/app/shared/components/collapsible-error-area/collapsible-error-area.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,12 @@ import { SubheaderComponent } from './components/presentations/subheader/subhead
     ItemPresentationalComponent,
     SubheaderComponent,
   ],
-  imports: [CommonModule, StarsRoutingModule, MaterialModule, PaginationModule],
+  imports: [
+    CommonModule,
+    StarsRoutingModule,
+    MaterialModule,
+    PaginationModule,
+    CollapsibleErrorAreaModule,
+  ],
 })
 export class StarsModule {}

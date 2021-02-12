@@ -1,0 +1,27 @@
+.tree-invisible {
+  display: none;
+}
+
+.tree-root ul,
+.tree-root li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.mat-tree {
+  background-color: inherit;
+}
+
+.mat-tree-node {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.tree-node-ul {
+  padding: 0;
+}
+
+.error-message {
+  color: red;
+}
