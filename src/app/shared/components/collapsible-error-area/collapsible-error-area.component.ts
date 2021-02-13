@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 
 @Component({
@@ -8,35 +8,38 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
   styleUrls: ['./collapsible-error-area.component.scss'],
 })
 export class CollapsibleErrorAreaComponent implements OnInit {
-  treeControl = new NestedTreeControl<FoodNode>((node) => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
+  @Input() errorMessages: ErrorMessage[] = [];
 
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  treeControl = new NestedTreeControl<ErrorNode>(
+    (messages) => messages.children
+  );
+  dataSource = new MatTreeNestedDataSource<ErrorNode>();
+
+  constructor() {}
+
+  hasChild = (_: number, messages: ErrorNode) =>
+    !!messages.children && messages.children.length > 0;
+
+  ngOnInit(): void {
+    this.dataSource.data = this.errorMessages.length
+      ? [
+          {
+            message:
+              this.errorMessages.length === 1
+                ? 'Error Message'
+                : 'Error Messages',
+            children: this.errorMessages,
+          },
+        ]
+      : this.errorMessages;
   }
-
-  hasChild = (_: number, node: FoodNode) =>
-    !!node.children && node.children.length > 0;
-  ngOnInit(): void {}
 }
 
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
+interface ErrorNode {
+  message: string;
+  children?: ErrorNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {
-        name:
-          'Appaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaale',
-      },
-      {
-        name:
-          'Appaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaale',
-      },
-    ],
-  },
-];
+export type ErrorMessage = {
+  message: string;
+};

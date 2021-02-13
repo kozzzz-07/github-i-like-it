@@ -22,3 +22,14 @@ describe('CollapsibleErrorAreaComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+// const messages: ErrorMessage[] = [
+//   {
+//     message:
+//       'Appaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaale',
+//   },
+//   {
+//     message:
+//       'Appaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaale',
+//   },
+// ];
