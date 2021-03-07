@@ -108,7 +108,9 @@
       </span>
     </div>
     <div mat-line>
-      <app-collapsible-error-area></app-collapsible-error-area>
+      <app-collapsible-error-area
+        (errorMessages)="node.errorMessages"
+      ></app-collapsible-error-area>
     </div>
   </mat-list-item>
   <mat-divider *ngIf="!islastItem"></mat-divider>

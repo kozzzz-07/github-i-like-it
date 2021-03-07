@@ -1,3 +1,4 @@
+import { StarredMyRepositoryEdge } from './../../../../../models/stars.model';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { Node } from 'src/app/models/stars.model';
 
@@ -8,7 +9,7 @@ import { Node } from 'src/app/models/stars.model';
 })
 export class ItemPresentationalComponent implements OnInit {
   @Input() islastItem: boolean | undefined;
-  @Input() node: Node | undefined;
+  @Input() node: StarredMyRepositoryEdge['node'] | undefined;
   @Output() addStarEvent = new EventEmitter<Node['id']>();
   @Output() removeStarEvent = new EventEmitter<Node['id']>();
 

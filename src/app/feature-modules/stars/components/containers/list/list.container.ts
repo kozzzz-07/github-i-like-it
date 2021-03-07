@@ -34,8 +34,9 @@ export class ListContainerComponent implements OnInit {
     })
   );
   edges$ = this.starsStore.selectEdges().pipe(
-    tap(() => {
+    tap((ret) => {
       console.log('++edges++');
+      console.log(ret);
     })
   );
   totalCount$ = this.starsStore.selectTotalCount().pipe(

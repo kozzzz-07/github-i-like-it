@@ -14,6 +14,7 @@ import {
   StarredMyRepositoriesQuery,
   MutationRemoveStarArgs,
   MutationAddStarArgs,
+  RemoveStarPayload,
 } from 'src/app/models/graphql';
 
 @Injectable({
@@ -42,7 +43,7 @@ export class StarsService {
     return this.apolloService.mutate(options);
   }
 
-  removeStar(input: MutationRemoveStarArgs): Observable<FetchResult<unknown>> {
+  removeStar(input: MutationRemoveStarArgs): Observable<FetchResult<RemoveStarPayload>> {
     const options: MutationOptions = {
       mutation: REMOVE_STAR,
       variables: input,
