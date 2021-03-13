@@ -1,9 +1,4 @@
-import { StarredMyRepositoryEdge, Edges } from './../../../models/stars.model';
-import {
-  Maybe,
-  MutationRemoveStarArgs,
-  StarredRepositoryEdge,
-} from './../../../models/graphql';
+import { MutationRemoveStarArgs } from './../../../models/graphql';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -18,10 +13,13 @@ import {
 import { StarsService } from '../services/stars.service';
 import { ApolloError } from '@apollo/client/core';
 
-// TODO: データの持ち方が悪いのでフラットにする
 export interface StarsState {
-  starredRepositories: StarredMyRepositoryConnectionWithNodeState;
+  totalCount: StarredMyRepositoryConnectionWithNodeState['totalCount'];
+  edges: StarredMyRepositoryConnectionWithNodeState['edges'];
+  pageInfo: StarredMyRepositoryConnectionWithNodeState['pageInfo'];
 }
+
+type NewStarsState = Partial<StarsState>;
 
 @Injectable()
 export class StarsStore extends ComponentStore<StarsState> {
@@ -36,12 +34,9 @@ export class StarsStore extends ComponentStore<StarsState> {
   }));
 
   private readonly updateStarredRepositories = this.updater(
-    (
-      state,
-      starredRepositories: StarredMyRepositoryConnectionWithNodeState
-    ) => ({
+    (state, newState: NewStarsState) => ({
       ...state,
-      starredRepositories,
+      ...newState,
     })
   );
 
@@ -55,9 +50,11 @@ export class StarsStore extends ComponentStore<StarsState> {
             tapResponse(
               (ret) => {
                 console.log('ret', ret);
-                this.updateStarredRepositories(
-                  ret.data.viewer.starredRepositories
-                );
+                this.updateStarredRepositories({
+                  totalCount: ret.data.viewer.starredRepositories.totalCount,
+                  edges: ret.data.viewer.starredRepositories.edges || [],
+                  pageInfo: ret.data.viewer.starredRepositories.pageInfo,
+                });
               },
               (error) => {
                 console.error(error);
@@ -98,13 +95,13 @@ export class StarsStore extends ComponentStore<StarsState> {
             tap((ret) => {
               console.log('removeStar()', ret);
               this.updateStarredRepositories(
-                this.StarredMyRepositoryConnection(args.input.starrableId, '')
+                this.starredMyRepositoryConnection(args.input.starrableId)
               );
             }),
             catchError((error: ApolloError) => {
               console.error('removeStar()', error.graphQLErrors);
               this.updateStarredRepositories(
-                this.StarredMyRepositoryConnection(
+                this.starredMyRepositoryConnection(
                   args.input.starrableId,
                   error.message
                 )
@@ -118,36 +115,34 @@ export class StarsStore extends ComponentStore<StarsState> {
   );
 
   constructor(private readonly starsService: StarsService) {
+    // Stateの初期化
     super({
-      starredRepositories: {
-        totalCount: 0,
-        pageInfo: { hasNextPage: false, hasPreviousPage: false },
-      },
+      totalCount: 0,
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      edges: [],
     });
   }
 
   // selecters
 
   selectStartCursor(): Observable<PageInfo['startCursor']> {
-    return this.select(
-      (state) => state.starredRepositories.pageInfo.startCursor
-    );
+    return this.select((state) => state.pageInfo.startCursor);
   }
 
   selectEndCursor(): Observable<PageInfo['endCursor']> {
-    return this.select((state) => state.starredRepositories.pageInfo.endCursor);
+    return this.select((state) => state.pageInfo.endCursor);
   }
 
   selectEdges(): Observable<
     StarredMyRepositoryConnectionWithNodeState['edges']
   > {
-    return this.select((state) => state.starredRepositories.edges);
+    return this.select((state) => state.edges);
   }
 
   selectTotalCount(): Observable<
     StarredMyRepositoryConnectionWithNodeState['totalCount']
   > {
-    return this.select((state) => state.starredRepositories.totalCount);
+    return this.select((state) => state.totalCount);
   }
 
   // private getSelectedNode(id: Node['id']): Observable<Node> {
@@ -162,28 +157,38 @@ export class StarsStore extends ComponentStore<StarsState> {
   // Memo: ボタンを押すと再更新がかかる
   // 結果エラー表示エリアが再構築され、メッセージが表示できない
 
-  private StarredMyRepositoryConnection(
+  private starredMyRepositoryConnection(
     id: Node['id'],
-    errorMessage: string
-  ): Observable<StarredMyRepositoryConnectionWithNodeState> {
+    errorMessage: string | null = null
+  ): Observable<NewStarsState> {
     return combineLatest([
-      this.select((state) => state.starredRepositories),
+      this.select((state) => state.edges),
       of(errorMessage),
     ]).pipe(
       take(1),
-      map(([starredRepositories, message]) => ({
-        ...starredRepositories,
-        edges: starredRepositories.edges?.map((edge) => {
-          return {
-            ...edge,
-            node: {
-              ...edge?.node,
-              errorMessages: [{ message }],
-              // errorMessages: edge?.node.id === id ? [{message}] : [],
-            },
-          } as StarredMyRepositoryEdge;
-        }),
-      }))
+      map(
+        ([edges = [], message]) =>
+          ({
+            edges: edges?.map((edge) => {
+              if (!edge) {
+                return {};
+              }
+
+              return {
+                ...edge,
+                node: {
+                  ...edge.node,
+                  errorMessages:
+                    message == null
+                      ? []
+                      : edge.node.id === id
+                      ? [{ message }]
+                      : edge.node.errorMessages,
+                },
+              };
+            }),
+          } as NewStarsState)
+      )
     );
   }
 }
