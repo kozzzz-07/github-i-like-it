@@ -1,14 +1,21 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+} from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 
 @Component({
   selector: 'app-collapsible-error-area',
   templateUrl: './collapsible-error-area.component.html',
   styleUrls: ['./collapsible-error-area.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollapsibleErrorAreaComponent implements OnInit, OnChanges {
-  @Input() errorMessages: ErrorMessage[] = [];
+  @Input() errorMessages: ErrorMessage[] | undefined;
 
   treeControl = new NestedTreeControl<ErrorNode>(
     (messages) => messages.children
@@ -21,27 +28,23 @@ export class CollapsibleErrorAreaComponent implements OnInit, OnChanges {
     !!messages.children && messages.children.length > 0;
 
   ngOnInit(): void {
-    console.log('ngOnInit', this.errorMessages);
-    this.setaDataSource();
+    this.setaDataSource(this.errorMessages);
   }
 
   ngOnChanges(): void {
-    console.log(this.errorMessages);
-    this.setaDataSource();
+    this.setaDataSource(this.errorMessages);
   }
 
-  private setaDataSource(): void {
-    this.dataSource.data = this.errorMessages.length
+  private setaDataSource(errorMessages: ErrorMessage[] = []): void {
+    this.dataSource.data = errorMessages.length
       ? [
           {
             message:
-              this.errorMessages.length === 1
-                ? 'Error Message'
-                : 'Error Messages',
-            children: this.errorMessages,
+              errorMessages.length === 1 ? 'Error Message' : 'Error Messages',
+            children: errorMessages,
           },
         ]
-      : this.errorMessages;
+      : errorMessages;
   }
 }
 

@@ -1,14 +1,22 @@
 import { StarredMyRepositoryEdge } from './../../../../../models/stars.model';
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Node } from 'src/app/models/stars.model';
 
 @Component({
   selector: 'app-presentational-item',
   templateUrl: './item.presentational.html',
   styleUrls: ['./item.presentational.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemPresentationalComponent implements OnInit {
-  @Input() islastItem: boolean | undefined;
+  @Input() isLastItem: boolean | undefined;
   @Input() node: StarredMyRepositoryEdge['node'] | undefined;
   @Output() addStarEvent = new EventEmitter<Node['id']>();
   @Output() removeStarEvent = new EventEmitter<Node['id']>();

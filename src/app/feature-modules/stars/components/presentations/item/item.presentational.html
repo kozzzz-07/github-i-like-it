@@ -35,7 +35,7 @@
             matBadge="！"
             matBadgeColor="warn"
             matBadgeDescription="error"
-            [matBadgeHidden]="!!node.errorMessages?.length"
+            [matBadgeHidden]="!node.errorMessages?.length"
             (click)="addStar(node.id)"
           >
             <mat-icon class="star-icon">star_outline</mat-icon>

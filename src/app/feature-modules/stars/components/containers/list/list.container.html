@@ -3,7 +3,7 @@
   <ng-container *ngIf="edges$ | async as edges">
     <ng-container *ngFor="let edge of edges; last as last">
       <app-presentational-item
-        [islastItem]="last"
+        [isLastItem]="last"
         [node]="edge?.node"
         (addStarEvent)="addStar($event)"
         (removeStarEvent)="removeStar($event)"

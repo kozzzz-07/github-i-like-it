@@ -7,7 +7,7 @@ import {
   NextPage,
   PreviousPage,
 } from './../../../../../models/pagination.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FirstPage, PageChangeEvent } from 'src/app/models/pagination.model';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/pagination';
 import { Node } from 'src/app/models/stars.model';
@@ -18,6 +18,7 @@ import { AddStarInput } from 'src/app/models/graphql';
   templateUrl: './list.container.html',
   styleUrls: ['./list.container.scss'],
   providers: [StarsStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListContainerComponent implements OnInit {
   startCursor = '';
