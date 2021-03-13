@@ -55,7 +55,13 @@ export class ListContainerComponent implements OnInit {
     const page: FirstPage = {
       first: DEFAULT_PAGE_SIZE,
     };
-    this.starsStore.getMyStarredRepositories(page);
+
+    const req = {
+      page,
+      cache: true,
+    };
+
+    this.starsStore.getMyStarredRepositories(req);
 
     // TODO: unsubscribe
     this.startCursor$.subscribe((startCursor) => {
@@ -69,7 +75,7 @@ export class ListContainerComponent implements OnInit {
     });
   }
 
-  onPagenate(event: Readonly<PageChangeEvent>): void {
+  onPaginate(event: Readonly<PageChangeEvent>): void {
     console.log(event);
     if (event.isFirstPage) {
       this.goFirst(event);
@@ -87,7 +93,13 @@ export class ListContainerComponent implements OnInit {
       first: event.pageSize,
     };
     console.log('FirstPage', page);
-    this.starsStore.getMyStarredRepositories(page);
+
+    const req = {
+      page,
+      cache: event.isChangingPageSize,
+    };
+
+    this.starsStore.getMyStarredRepositories(req);
   }
 
   private goLast(event: PageChangeEvent): void {
@@ -95,7 +107,13 @@ export class ListContainerComponent implements OnInit {
       last: event.requestedLastSize,
     };
     console.log('LastPage', page);
-    this.starsStore.getMyStarredRepositories(page);
+
+    const req = {
+      page,
+      cache: event.isChangingPageSize,
+    };
+
+    this.starsStore.getMyStarredRepositories(req);
   }
 
   private goNext(event: PageChangeEvent): void {
@@ -105,7 +123,13 @@ export class ListContainerComponent implements OnInit {
     };
 
     console.log('NextPage', page);
-    this.starsStore.getMyStarredRepositories(page);
+
+    const req = {
+      page,
+      cache: event.isChangingPageSize,
+    };
+
+    this.starsStore.getMyStarredRepositories(req);
   }
 
   private goPrevious(event: PageChangeEvent): void {
@@ -115,7 +139,13 @@ export class ListContainerComponent implements OnInit {
     };
 
     console.log('PreviousPage', page);
-    this.starsStore.getMyStarredRepositories(page);
+
+    const req = {
+      page,
+      cache: event.isChangingPageSize,
+    };
+
+    this.starsStore.getMyStarredRepositories(req);
   }
 
   addStar(id: Node['id']): void {

@@ -13,6 +13,8 @@ export class PaginationComponent implements OnInit {
   @Input() pageSize = DEFAULT_PAGE_SIZE;
   @Output() paginate = new EventEmitter<Readonly<PageChangeEvent>>();
 
+  lastPageSize = 0;
+
   readonly PAGE_SIZE_OPTIONS = PAGE_SIZE_OPTIONS;
 
   constructor() {}
@@ -26,8 +28,22 @@ export class PaginationComponent implements OnInit {
     return pageIndex > previousPageIndex;
   }
 
+  private isChangingPageSize(
+    pageSize: Readonly<number>,
+    lastPageSize: Readonly<number>
+  ): boolean {
+    return pageSize !== lastPageSize;
+  }
+
   pageEvent(event: PageEvent): void {
     const isNext = this.isNext(event.pageIndex, event.previousPageIndex);
+
+    const isChangingPageSize = this.isChangingPageSize(
+      event.pageIndex,
+      this.lastPageSize
+    );
+    this.lastPageSize = event.pageIndex;
+
     // TODO: 関数化
     const isFirstPage = event.pageIndex === 0;
     const startLength = event.pageSize * event.pageIndex;
@@ -40,6 +56,7 @@ export class PaginationComponent implements OnInit {
       isFirstPage,
       isLastPage,
       requestedLastSize,
+      isChangingPageSize,
     };
 
     this.paginate.emit(changeEvent);

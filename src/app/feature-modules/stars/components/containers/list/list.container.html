@@ -14,6 +14,6 @@
 
 <!-- TODO: presentationalで包んだ方がいいのかな -->
 <ng-container *ngIf="totalCount$ | async as totalCount">
-  <app-pagination [totalCount]="totalCount" (paginate)="onPagenate($event)">
+  <app-pagination [totalCount]="totalCount" (paginate)="onPaginate($event)">
   </app-pagination>
 </ng-container>

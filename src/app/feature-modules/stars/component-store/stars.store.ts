@@ -44,10 +44,10 @@ export class StarsStore extends ComponentStore<StarsState> {
   // effects
 
   readonly getMyStarredRepositories = this.effect(
-    (page$: Observable<Pagination>) => {
-      return page$.pipe(
-        switchMap((page) =>
-          this.starsService.getMyStarredRepositories(page).pipe(
+    (req$: Observable<{ page: Pagination; cache: boolean }>) => {
+      return req$.pipe(
+        switchMap((req) =>
+          this.starsService.getMyStarredRepositories(req.page, req.cache).pipe(
             tapResponse(
               (ret) => {
                 console.log('ret', ret);

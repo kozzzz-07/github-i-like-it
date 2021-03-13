@@ -35,4 +35,5 @@ export interface PageChangeEvent extends PageEvent {
   isFirstPage: boolean;
   isLastPage: boolean;
   requestedLastSize: number;
+  isChangingPageSize: boolean;
 }

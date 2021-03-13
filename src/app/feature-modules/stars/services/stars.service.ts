@@ -24,11 +24,15 @@ export class StarsService {
   constructor(private apolloService: ApolloService) {}
 
   getMyStarredRepositories(
-    variables: Pagination
+    variables: Pagination,
+    cache: boolean = true
   ): Observable<ApolloQueryResult<StarredMyRepositoriesQuery>> {
+    console.log({ cache });
+
     const options: QueryOptions = {
       query: STARRED_REPOSITORIES,
       variables,
+      fetchPolicy: cache ? 'cache-first' : 'no-cache',
     };
 
     return this.apolloService.query(options);
@@ -43,7 +47,9 @@ export class StarsService {
     return this.apolloService.mutate(options);
   }
 
-  removeStar(input: MutationRemoveStarArgs): Observable<FetchResult<RemoveStarPayload>> {
+  removeStar(
+    input: MutationRemoveStarArgs
+  ): Observable<FetchResult<RemoveStarPayload>> {
     const options: MutationOptions = {
       mutation: REMOVE_STAR,
       variables: input,
