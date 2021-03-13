@@ -20,7 +20,7 @@
             matBadge="！"
             matBadgeColor="warn"
             matBadgeDescription="error"
-            [matBadgeHidden]="false"
+            [matBadgeHidden]="!node.errorMessages?.length"
             (click)="removeStar(node.id)"
           >
             <mat-icon class="star-icon">star</mat-icon>
@@ -32,6 +32,10 @@
             class="star-button"
             mat-stroked-button
             fontSet="material-icons-two-tone"
+            matBadge="！"
+            matBadgeColor="warn"
+            matBadgeDescription="error"
+            [matBadgeHidden]="!!node.errorMessages?.length"
             (click)="addStar(node.id)"
           >
             <mat-icon class="star-icon">star_outline</mat-icon>
@@ -109,9 +113,9 @@
     </div>
     <div mat-line>
       <app-collapsible-error-area
-        (errorMessages)="node.errorMessages"
+        [errorMessages]="node.errorMessages"
       ></app-collapsible-error-area>
     </div>
   </mat-list-item>
-  <mat-divider *ngIf="!islastItem"></mat-divider>
+  <mat-divider *ngIf="!isLastItem"></mat-divider>
 </ng-container>
