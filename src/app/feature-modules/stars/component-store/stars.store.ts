@@ -12,6 +12,7 @@ import {
 } from 'src/app/models/stars.model';
 import { StarsService } from '../services/stars.service';
 import { ApolloError } from '@apollo/client/core';
+import { ErrorMessage } from 'src/app/shared/components/collapsible-error-area/collapsible-error-area.component';
 
 export interface StarsState {
   totalCount: StarredMyRepositoryConnectionWithNodeState['totalCount'];
@@ -174,15 +175,16 @@ export class StarsStore extends ComponentStore<StarsState> {
                 return {};
               }
 
+              const errorMessages: ErrorMessage[] =
+                message == null ? [] : [{ message }];
+
               return {
                 ...edge,
                 node: {
                   ...edge.node,
                   errorMessages:
-                    message == null
-                      ? []
-                      : edge.node.id === id
-                      ? [{ message }]
+                    edge.node.id === id
+                      ? errorMessages
                       : edge.node.errorMessages,
                 },
               };
