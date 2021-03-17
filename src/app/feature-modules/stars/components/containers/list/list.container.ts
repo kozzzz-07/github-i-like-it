@@ -1,5 +1,4 @@
 import { RemoveStarInput } from './../../../../../models/graphql';
-import { StarsService } from './../../../services/stars.service';
 import { tap } from 'rxjs/operators';
 import { StarsStore } from '../../../component-store/stars.store';
 import {
@@ -46,22 +45,14 @@ export class ListContainerComponent implements OnInit {
     })
   );
 
-  constructor(
-    private readonly starsStore: StarsStore,
-    private readonly starsService: StarsService
-  ) {}
+  constructor(private readonly starsStore: StarsStore) {}
 
   ngOnInit(): void {
     const page: FirstPage = {
       first: DEFAULT_PAGE_SIZE,
     };
 
-    const req = {
-      page,
-      cache: true,
-    };
-
-    this.starsStore.getMyStarredRepositories(req);
+    this.starsStore.getMyStarredRepositories(page);
 
     // TODO: unsubscribe
     this.startCursor$.subscribe((startCursor) => {
@@ -94,12 +85,7 @@ export class ListContainerComponent implements OnInit {
     };
     console.log('FirstPage', page);
 
-    const req = {
-      page,
-      cache: event.isChangingPageSize,
-    };
-
-    this.starsStore.getMyStarredRepositories(req);
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   private goLast(event: PageChangeEvent): void {
@@ -108,12 +94,7 @@ export class ListContainerComponent implements OnInit {
     };
     console.log('LastPage', page);
 
-    const req = {
-      page,
-      cache: event.isChangingPageSize,
-    };
-
-    this.starsStore.getMyStarredRepositories(req);
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   private goNext(event: PageChangeEvent): void {
@@ -121,15 +102,9 @@ export class ListContainerComponent implements OnInit {
       first: event.pageSize,
       after: this.endCursor,
     };
-
     console.log('NextPage', page);
 
-    const req = {
-      page,
-      cache: event.isChangingPageSize,
-    };
-
-    this.starsStore.getMyStarredRepositories(req);
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   private goPrevious(event: PageChangeEvent): void {
@@ -137,15 +112,9 @@ export class ListContainerComponent implements OnInit {
       last: event.pageSize,
       before: this.startCursor,
     };
-
     console.log('PreviousPage', page);
 
-    const req = {
-      page,
-      cache: event.isChangingPageSize,
-    };
-
-    this.starsStore.getMyStarredRepositories(req);
+    this.starsStore.getMyStarredRepositories(page);
   }
 
   addStar(id: Node['id']): void {
