@@ -1,0 +1,121 @@
+<ng-container *ngIf="node">
+  <mat-list-item class="list-item">
+    <img matListAvatar src="{{node.openGraphImageUrl}}" alt="{{node.name}}" />
+    <div mat-line>
+      <div class="main-line">
+        <h2>
+          <a
+            class="link-url"
+            href="{{node.url}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{node.nameWithOwner}}</a
+          >
+        </h2>
+        <ng-container *ngIf="!node.addable; else Addable">
+          <button
+            class="star-button"
+            mat-stroked-button
+            fontSet="material-icons-two-tone"
+            matBadge="！"
+            matBadgeColor="warn"
+            matBadgeDescription="error"
+            [matBadgeHidden]="!node.errorMessages?.length"
+            (click)="removeStar(node.id)"
+          >
+            <mat-icon class="star-icon">star</mat-icon>
+            &nbsp;Unstar
+          </button>
+        </ng-container>
+        <ng-template #Addable>
+          <button
+            class="star-button"
+            mat-stroked-button
+            fontSet="material-icons-two-tone"
+            matBadge="！"
+            matBadgeColor="warn"
+            matBadgeDescription="error"
+            [matBadgeHidden]="!node.errorMessages?.length"
+            (click)="addStar(node.id)"
+          >
+            <mat-icon class="star-icon">star_outline</mat-icon>
+            &nbsp;Star
+          </button>
+        </ng-template>
+      </div>
+    </div>
+    <div mat-line>{{node.description}}</div>
+    <div mat-line>
+      <span class="others">
+        <a
+          class="item-group link-icon"
+          href="{{node.url}}/stargazers"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="link-group">
+            <mat-icon>star_outline</mat-icon>
+            <span class="item-center"> {{node.stargazerCount}} </span>
+          </span>
+        </a>
+        <a
+          class="item-group link-icon"
+          href="{{node.url}}/network/members"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="link-group">
+            <mat-icon>call_split</mat-icon>
+            <span class="item-center"> {{node.forkCount}} </span>
+          </span>
+        </a>
+        <a
+          class="item-group link-icon"
+          href="{{node.url}}/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="link-group">
+            <mat-icon>info_outline</mat-icon>
+            <span class="item-center"> {{node.issues.totalCount}} </span>
+          </span>
+        </a>
+        <a
+          class="item-group link-icon"
+          href="{{node.url}}/watchers"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="link-group">
+            <mat-icon fontSet="material-icons-outlined"
+              >remove_red_eye</mat-icon
+            >
+            <span class="item-center"> {{node.watchers.totalCount}} </span>
+          </span>
+        </a>
+      </span>
+    </div>
+    <div mat-line>
+      <span class="others">
+        <span class="item-group">
+          <span
+            class="repo-language-color item-center"
+            [style.background-color]="node.primaryLanguage?.color"
+          ></span>
+          <span class="item-center">{{node.primaryLanguage?.name}}</span>
+        </span>
+        <div class="item" *ngIf="node.licenseInfo">
+          License: {{node.licenseInfo.nickname ? node.licenseInfo.nickname :
+          node.licenseInfo.name }}
+        </div>
+        <div>Updated on {{node.updatedAt | date}}</div>
+      </span>
+    </div>
+    <div mat-line>
+      <app-collapsible-error-area
+        [errorMessages]="node.errorMessages"
+      ></app-collapsible-error-area>
+    </div>
+  </mat-list-item>
+  <mat-divider *ngIf="!isLastItem"></mat-divider>
+</ng-container>

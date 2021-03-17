@@ -6,6 +6,7 @@ import { QueryOptions } from '@apollo/client/core/watchQueryOptions';
 import { Apollo, gql } from 'apollo-angular';
 import firebase from 'firebase/app';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ME } from './example.gql';
 
 @Injectable({
   providedIn: 'root',
@@ -67,14 +68,6 @@ export class ExampleService {
 
   // 疎通
   query(): Observable<ApolloQueryResult<Viewer>> {
-    const ME = gql`
-      query {
-        viewer {
-          login
-        }
-      }
-    `;
-
     const options: QueryOptions = {
       query: ME,
     };

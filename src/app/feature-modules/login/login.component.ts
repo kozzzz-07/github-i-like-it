@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (authResult.credential as firebase.auth.OAuthCredential).accessToken ||
       '';
     this.ngZone.run(() => {
-      this.router.navigateByUrl('/list');
+      this.router.navigateByUrl('/stars');
     });
 
     return false;

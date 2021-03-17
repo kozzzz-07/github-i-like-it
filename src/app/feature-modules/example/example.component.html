@@ -1,11 +1,11 @@
-<button (click)="login()" >login</button>
-<button (click)="logout()" >logout</button>
+<button (click)="login()">login</button>
+<button (click)="logout()">logout</button>
 
 <ng-container *ngIf="user$ | async as user">
-  <p>{{user.userName}}</p>
+  <p>{{ user.userName }}</p>
 </ng-container>
 
 <button (click)="getMe()">疎通確認</button>
-<p>me: {{me}}</p>
+<p>me: {{ me }}</p>
 <button (click)="getRepo()">疎通確認2</button>
-<p>repo: {{repo | json}}</p>
+<p>repo: {{ repo | json }}</p>

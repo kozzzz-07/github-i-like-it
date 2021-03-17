@@ -21,17 +21,17 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./feature-modules/list/list.module').then(
-            (m) => m.ListModule
+          import('./feature-modules/stars/stars.module').then(
+            (m) => m.StarsModule
           ),
       },
-      {
-        path: '',
-        loadChildren: () =>
-          import('./feature-modules/example/example.module').then(
-            (m) => m.ExampleModule
-          ),
-      },
+      // {
+      //   path: '',
+      //   loadChildren: () =>
+      //     import('./feature-modules/example/example.module').then(
+      //       (m) => m.ExampleModule
+      //     ),
+      // },
     ],
   },
 ];

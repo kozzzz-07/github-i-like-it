@@ -1,0 +1,8 @@
+schema: "schema.docs.graphql"
+documents: "src/app/**/*.{graphql,js,ts}"
+extensions:
+  endpoints:
+    default:
+      url: https://api.github.com/graphql
+      headers:
+        Authorization: Bearer TOKEN
