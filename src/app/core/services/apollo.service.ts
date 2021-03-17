@@ -22,10 +22,10 @@ export class ApolloService {
     return this.apollo.query(options);
   }
 
-  watchQuery<TData, TVariables = EmptyObject>(
-    options: WatchQueryOptions<TVariables>
-  ): Observable<ApolloQueryResult<unknown>> {
-    return this.apollo.watchQuery(options).valueChanges;
+  watchQuery<T, V = EmptyObject>(
+    options: WatchQueryOptions<V>
+  ): Observable<ApolloQueryResult<T>> {
+    return this.apollo.watchQuery<T, V>(options).valueChanges;
   }
 
   mutate<T, V = EmptyObject>(

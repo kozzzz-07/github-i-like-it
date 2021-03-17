@@ -12,7 +12,7 @@
             >{{node.nameWithOwner}}</a
           >
         </h2>
-        <ng-container *ngIf="node.viewerHasStarred; else HasNotStarred">
+        <ng-container *ngIf="!node.addable; else Addable">
           <button
             class="star-button"
             mat-stroked-button
@@ -27,7 +27,7 @@
             &nbsp;Unstar
           </button>
         </ng-container>
-        <ng-template #HasNotStarred>
+        <ng-template #Addable>
           <button
             class="star-button"
             mat-stroked-button

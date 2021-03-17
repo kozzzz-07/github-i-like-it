@@ -9,6 +9,7 @@ import {
   PageInfo,
   Node,
   StarredMyRepositoryConnectionWithNodeState,
+  StarredMyRepositoryEdge,
 } from 'src/app/models/stars.model';
 import { StarsService } from '../services/stars.service';
 import { ApolloError } from '@apollo/client/core';
@@ -47,7 +48,7 @@ export class StarsStore extends ComponentStore<StarsState> {
     (req$: Observable<{ page: Pagination; cache: boolean }>) => {
       return req$.pipe(
         switchMap((req) =>
-          this.starsService.getMyStarredRepositories(req.page, req.cache).pipe(
+          this.starsService.watchQueryMyStarredRepositories(req.page).pipe(
             tapResponse(
               (ret) => {
                 console.log('ret', ret);
@@ -69,20 +70,24 @@ export class StarsStore extends ComponentStore<StarsState> {
 
   readonly addStar = this.effect((input$: Observable<MutationAddStarArgs>) => {
     return input$.pipe(
-      switchMap((input) =>
-        this.starsService.addStar(input).pipe(
-          tapResponse(
-            (ret) => {
-              console.log('ret', ret);
-              // TODO: ボタンを押下したフラグを更新する
-            },
-            // TODO: errorプロパティに含める
-            (error: any) => {
-              console.log(error);
-              // const err: GraphQLError = {
-              // }
-            }
-          )
+      switchMap((args) =>
+        this.starsService.removeStar(args).pipe(
+          tap((ret) => {
+            console.log('addStar()', ret);
+            this.updateStarredRepositories(
+              this.addedMyRepositoryConnectionSuccess(args.input.starrableId)
+            );
+          }),
+          catchError((error: ApolloError) => {
+            console.error('addStar()', error.graphQLErrors);
+            this.updateStarredRepositories(
+              this.addedMyRepositoryConnectionFailure(
+                args.input.starrableId,
+                error.message
+              )
+            );
+            return of(error.message);
+          })
         )
       )
     );
@@ -96,13 +101,15 @@ export class StarsStore extends ComponentStore<StarsState> {
             tap((ret) => {
               console.log('removeStar()', ret);
               this.updateStarredRepositories(
-                this.starredMyRepositoryConnection(args.input.starrableId)
+                this.removedMyRepositoryConnectionSuccess(
+                  args.input.starrableId
+                )
               );
             }),
             catchError((error: ApolloError) => {
               console.error('removeStar()', error.graphQLErrors);
               this.updateStarredRepositories(
-                this.starredMyRepositoryConnection(
+                this.removedMyRepositoryConnectionFailure(
                   args.input.starrableId,
                   error.message
                 )
@@ -146,19 +153,35 @@ export class StarsStore extends ComponentStore<StarsState> {
     return this.select((state) => state.totalCount);
   }
 
-  // private getSelectedNode(id: Node['id']): Observable<Node> {
-  //   return this.select((state) => {
-  //     const edge = state.starredRepositories.edges?.find((_edge) => {
-  //       return _edge?.node.id === id;
-  //     });
-  //     return edge!.node;
-  //   });
-  // }
+  private removedMyRepositoryConnectionSuccess(
+    id: Node['id']
+  ): Observable<NewStarsState> {
+    return combineLatest([this.select((state) => state.edges)]).pipe(
+      take(1),
+      map(
+        ([edges = []]) =>
+          ({
+            edges: edges?.map((edge) => {
+              if (!edge) {
+                return {};
+              }
 
-  // Memo: ボタンを押すと再更新がかかる
-  // 結果エラー表示エリアが再構築され、メッセージが表示できない
+              return {
+                ...edge,
+                node: {
+                  ...edge.node,
+                  errorMessages:
+                    edge.node.id === id ? [] : edge.node.errorMessages,
+                  addable: edge.node.id === id ? true : edge.node.addable,
+                },
+              } as StarredMyRepositoryEdge;
+            }),
+          } as NewStarsState)
+      )
+    );
+  }
 
-  private starredMyRepositoryConnection(
+  private removedMyRepositoryConnectionFailure(
     id: Node['id'],
     errorMessage: string | null = null
   ): Observable<NewStarsState> {
@@ -186,8 +209,74 @@ export class StarsStore extends ComponentStore<StarsState> {
                     edge.node.id === id
                       ? errorMessages
                       : edge.node.errorMessages,
+                  addable: edge.node.id === id ? false : edge.node.addable,
                 },
-              };
+              } as StarredMyRepositoryEdge;
+            }),
+          } as NewStarsState)
+      )
+    );
+  }
+
+  private addedMyRepositoryConnectionSuccess(
+    id: Node['id']
+  ): Observable<NewStarsState> {
+    return combineLatest([this.select((state) => state.edges)]).pipe(
+      take(1),
+      map(
+        ([edges = []]) =>
+          ({
+            edges: edges?.map((edge) => {
+              if (!edge) {
+                return {};
+              }
+
+              return {
+                ...edge,
+                node: {
+                  ...edge.node,
+                  errorMessages:
+                    edge.node.id === id ? [] : edge.node.errorMessages,
+                  addable: edge.node.id === id ? false : edge.node.addable,
+                },
+              } as StarredMyRepositoryEdge;
+            }),
+          } as NewStarsState)
+      )
+    );
+  }
+
+  private addedMyRepositoryConnectionFailure(
+    id: Node['id'],
+    errorMessage: string | null = null
+  ): Observable<NewStarsState> {
+    return combineLatest([
+      this.select((state) => state.edges),
+      of(errorMessage),
+    ]).pipe(
+      take(1),
+      map(
+        ([edges = [], message]) =>
+          ({
+            edges: edges?.map((edge) => {
+              if (!edge) {
+                return {};
+              }
+
+              const errorMessages: ErrorMessage[] =
+                message == null ? [] : [{ message }];
+
+              return {
+                ...edge,
+                node: {
+                  ...edge.node,
+                  errorMessages:
+                    edge.node.id === id
+                      ? errorMessages
+                      : edge.node.errorMessages,
+                  addable: edge.node.id === id ? true : edge.node.addable,
+                },
+              } as StarredMyRepositoryEdge;
             }),
           } as NewStarsState)
       )
