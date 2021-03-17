@@ -25,13 +25,13 @@ const routes: Routes = [
             (m) => m.StarsModule
           ),
       },
-      {
-        path: '',
-        loadChildren: () =>
-          import('./feature-modules/example/example.module').then(
-            (m) => m.ExampleModule
-          ),
-      },
+      // {
+      //   path: '',
+      //   loadChildren: () =>
+      //     import('./feature-modules/example/example.module').then(
+      //       (m) => m.ExampleModule
+      //     ),
+      // },
     ],
   },
 ];
