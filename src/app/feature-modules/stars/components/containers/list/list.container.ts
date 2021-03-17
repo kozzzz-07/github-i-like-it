@@ -1,16 +1,22 @@
 import { RemoveStarInput } from './../../../../../models/graphql';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { StarsStore } from '../../../component-store/stars.store';
 import {
   LastPage,
   NextPage,
   PreviousPage,
 } from './../../../../../models/pagination.model';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FirstPage, PageChangeEvent } from 'src/app/models/pagination.model';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/pagination';
 import { Node } from 'src/app/models/stars.model';
 import { AddStarInput } from 'src/app/models/graphql';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-container-list',
@@ -19,7 +25,7 @@ import { AddStarInput } from 'src/app/models/graphql';
   providers: [StarsStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListContainerComponent implements OnInit {
+export class ListContainerComponent implements OnInit, OnDestroy {
   startCursor = '';
   endCursor = '';
 
@@ -45,6 +51,8 @@ export class ListContainerComponent implements OnInit {
     })
   );
 
+  private onDestroy$ = new Subject();
+
   constructor(private readonly starsStore: StarsStore) {}
 
   ngOnInit(): void {
@@ -54,16 +62,21 @@ export class ListContainerComponent implements OnInit {
 
     this.starsStore.getMyStarredRepositories(page);
 
-    // TODO: unsubscribe
-    this.startCursor$.subscribe((startCursor) => {
-      console.log({ startCursor });
-      this.startCursor = startCursor || '';
-    });
+    this.startCursor$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((startCursor) => {
+        console.log({ startCursor });
+        this.startCursor = startCursor || '';
+      });
 
-    this.endCursor$.subscribe((endCursor) => {
+    this.endCursor$.pipe(takeUntil(this.onDestroy$)).subscribe((endCursor) => {
       console.log({ endCursor });
       this.endCursor = endCursor || '';
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   onPaginate(event: Readonly<PageChangeEvent>): void {
