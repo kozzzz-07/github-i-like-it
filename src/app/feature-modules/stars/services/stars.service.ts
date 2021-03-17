@@ -16,6 +16,7 @@ import {
   MutationRemoveStarArgs,
   MutationAddStarArgs,
   RemoveStarPayload,
+  AddStarPayload,
 } from 'src/app/models/graphql';
 import { Apollo } from 'apollo-angular';
 
@@ -52,7 +53,7 @@ export class StarsService {
     return this.apolloService.watchQuery<StarredMyRepositoriesQuery>(options);
   }
 
-  addStar(input: MutationAddStarArgs): Observable<FetchResult<unknown>> {
+  addStar(input: MutationAddStarArgs): Observable<FetchResult<AddStarPayload>> {
     const options: MutationOptions = {
       mutation: ADD_STAR,
       variables: input,

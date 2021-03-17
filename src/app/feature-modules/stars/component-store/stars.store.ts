@@ -71,7 +71,7 @@ export class StarsStore extends ComponentStore<StarsState> {
   readonly addStar = this.effect((input$: Observable<MutationAddStarArgs>) => {
     return input$.pipe(
       switchMap((args) =>
-        this.starsService.removeStar(args).pipe(
+        this.starsService.addStar(args).pipe(
           tap((ret) => {
             console.log('addStar()', ret);
             this.updateStarredRepositories(
