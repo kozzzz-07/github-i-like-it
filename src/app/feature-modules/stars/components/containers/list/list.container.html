@@ -1,19 +1,21 @@
-<mat-list>
-  <app-subheader></app-subheader>
-  <ng-container *ngIf="edges$ | async as edges">
-    <ng-container *ngFor="let edge of edges; last as last">
-      <app-presentational-item
-        [isLastItem]="last"
-        [node]="edge?.node"
-        (addStarEvent)="addStar($event)"
-        (removeStarEvent)="removeStar($event)"
-      ></app-presentational-item>
+<div class="contents">
+  <mat-list class="main">
+    <app-subheader></app-subheader>
+    <ng-container *ngIf="edges$ | async as edges">
+      <ng-container *ngFor="let edge of edges; last as last">
+        <app-presentational-item
+          [isLastItem]="last"
+          [node]="edge?.node"
+          (addStarEvent)="addStar($event)"
+          (removeStarEvent)="removeStar($event)"
+        ></app-presentational-item>
+      </ng-container>
     </ng-container>
-  </ng-container>
-</mat-list>
+  </mat-list>
 
-<!-- TODO: presentationalで包んだ方がいいのかな -->
-<ng-container *ngIf="totalCount$ | async as totalCount">
-  <app-pagination [totalCount]="totalCount" (paginate)="onPaginate($event)">
-  </app-pagination>
-</ng-container>
+  <!-- TODO: presentationalで包んだ方がいいのかな -->
+  <div *ngIf="totalCount$ | async as totalCount" class="pagination">
+    <app-pagination [totalCount]="totalCount" (paginate)="onPaginate($event)">
+    </app-pagination>
+  </div>
+</div>
