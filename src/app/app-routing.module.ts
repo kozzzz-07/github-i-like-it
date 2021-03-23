@@ -23,7 +23,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./feature-modules/search/search.module').then(
             (m) => m.SearchModule
-          )
+          ),
       },
       {
         path: '',
