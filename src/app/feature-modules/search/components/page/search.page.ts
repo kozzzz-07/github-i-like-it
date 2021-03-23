@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-page',
   templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss']
+  styleUrls: ['./search.page.scss'],
 })
 export class SearchPageComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
