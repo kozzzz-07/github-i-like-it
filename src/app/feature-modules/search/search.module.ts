@@ -5,6 +5,9 @@ import { SearchPageComponent } from './components/page/search.page';
 import { ListContainerComponent } from './components/containers/list/list.container';
 import { ItemComponent } from './components/presentations/item/item.component';
 import { SubheaderComponent } from './components/presentations/subheader/subheader.component';
+import { MaterialModule } from 'src/app/shared/material.module';
+import { PaginationModule } from 'src/app/shared/components/pagination/pagination.module';
+import { CollapsibleErrorAreaModule } from 'src/app/shared/components/collapsible-error-area/collapsible-error-area.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +16,12 @@ import { SubheaderComponent } from './components/presentations/subheader/subhead
     ItemComponent,
     SubheaderComponent,
   ],
-  imports: [CommonModule, SearchRoutingModule],
+  imports: [
+    CommonModule,
+    SearchRoutingModule,
+    MaterialModule,
+    PaginationModule,
+    CollapsibleErrorAreaModule,
+  ],
 })
 export class SearchModule {}

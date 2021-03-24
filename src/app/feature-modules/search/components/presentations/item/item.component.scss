@@ -1,0 +1,84 @@
+.others {
+  display: flex;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.list-item {
+  max-width: 904px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item {
+  margin-right: 8px;
+}
+
+.item-group {
+  display: flex;
+  margin-right: 8px;
+}
+
+.item-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.repo-language-color {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.main-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 0px 0px; // Badgeの表示スペース
+}
+
+.star-icon {
+  font-size: 21px;
+}
+
+.link-group {
+  display: flex;
+}
+
+.link-url {
+  color: blue;
+  text-decoration: none;
+}
+
+// 入れ子にすると動かない・・
+.link-url:hover {
+  text-decoration: underline;
+}
+
+.link-url:active {
+  text-decoration: underline;
+}
+
+.link-icon {
+  color: inherit;
+  text-decoration: none;
+
+  :link {
+    color: inherit;
+  }
+  :visited {
+    color: inherit;
+  }
+  :hover {
+    color: blue;
+  }
+  :active {
+    color: blue;
+  }
+}
+
+.star-button {
+  margin-top: auto;
+  margin-bottom: auto;
+}
