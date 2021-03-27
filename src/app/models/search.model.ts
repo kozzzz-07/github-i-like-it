@@ -1,6 +1,6 @@
 import { ErrorMessage } from '../shared/components/collapsible-error-area/collapsible-error-area.component';
 import { Maybe, SearchRepositoriesQuery } from './graphql';
-import { PopArray, RemoveNull, RemoveUndefined, Weaken } from './util';
+import { PopArray, RemoveNull, Weaken } from './util';
 
 // TODO: 一旦Node型を取り出す、綺麗にしたい
 type Tmp = PopArray<SearchRepositoriesQuery['search']['edges']>;
@@ -16,15 +16,22 @@ interface NodeAndNoseState extends Weaken<RemoveNull<Tmp[0]>, 'node'> {
 }
 
 // edegesを復元
-export interface SearchRepositories
+interface SearchRepositoryEdges
   extends Weaken<SearchRepositoriesQuery['search'], 'edges'> {
   edges?: Maybe<Array<Maybe<NodeAndNoseState>>>;
 }
 
-export type PageInfo = SearchRepositories['pageInfo'];
-export type RepositoryCount = SearchRepositories['repositoryCount'];
-export type Edges = SearchRepositories['edges'];
+// NodeをRepository型で指定し直す
+export interface SearchRepositories
+  extends Weaken<SearchRepositoriesQuery, 'search'> {
+  search: SearchRepositoryEdges;
+}
 
-export type Repository = RemoveUndefined<
-  RemoveNull<PopArray<Edges>[0]>
->['node'];
+export type PageInfo = SearchRepositoryEdges['pageInfo'];
+export type RepositoryCount = SearchRepositoryEdges['repositoryCount'];
+export type Edges = SearchRepositoryEdges['edges'];
+
+export type Repository = Extract<
+  RemoveNull<PopArray<Edges>[0]>['node'],
+  { __typename?: 'Repository' }
+>;
