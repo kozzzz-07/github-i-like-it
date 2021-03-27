@@ -6,7 +6,7 @@ export const SEARCH_REPOSITORIES = gql`
     $after: String
     $last: Int
     $before: String
-    $query: String
+    $query: String!
   ) {
     search(
       first: $first

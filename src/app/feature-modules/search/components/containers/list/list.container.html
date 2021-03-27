@@ -1,8 +1,13 @@
 <div class="contents">
   <mat-list class="main">
     <app-presentational-subheader></app-presentational-subheader>
-    <ng-container>
-      <app-presentational-item></app-presentational-item>
+    <ng-container *ngIf="edges$ | async as edges">
+      <ng-container *ngFor="let edge of edges; last as last">
+        <app-presentational-item
+          [isLastItem]="last"
+          [node]="edge?.node"
+        ></app-presentational-item>
+      </ng-container>
     </ng-container>
   </mat-list>
 </div>

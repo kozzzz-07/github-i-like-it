@@ -19679,6 +19679,125 @@ export type ViewerHovercardContext = HovercardContext & {
   viewer: User;
 };
 
+export type AddStarMutationVariables = Exact<{
+  input: AddStarInput;
+}>;
+
+export type AddStarMutation = { __typename?: 'Mutation' } & {
+  addStar?: Maybe<
+    { __typename?: 'AddStarPayload' } & Pick<
+      AddStarPayload,
+      'clientMutationId'
+    > & {
+        starrable?: Maybe<
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Repository' } & Pick<
+              Repository,
+              'viewerHasStarred'
+            >)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+        >;
+      }
+  >;
+};
+
+export type RemoveStarMutationVariables = Exact<{
+  input: RemoveStarInput;
+}>;
+
+export type RemoveStarMutation = { __typename?: 'Mutation' } & {
+  removeStar?: Maybe<
+    { __typename?: 'RemoveStarPayload' } & Pick<
+      RemoveStarPayload,
+      'clientMutationId'
+    > & {
+        starrable?: Maybe<
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Repository' } & Pick<
+              Repository,
+              'viewerHasStarred'
+            >)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+        >;
+      }
+  >;
+};
+
+export type SearchRepositoriesQueryVariables = Exact<{
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  query: Scalars['String'];
+}>;
+
+export type SearchRepositoriesQuery = { __typename?: 'Query' } & {
+  search: { __typename?: 'SearchResultItemConnection' } & Pick<
+    SearchResultItemConnection,
+    'codeCount' | 'issueCount' | 'repositoryCount'
+  > & {
+      pageInfo: { __typename?: 'PageInfo' } & Pick<
+        PageInfo,
+        'endCursor' | 'hasNextPage' | 'hasPreviousPage' | 'startCursor'
+      >;
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'SearchResultItemEdge' } & Pick<
+              SearchResultItemEdge,
+              'cursor'
+            > & {
+                node?: Maybe<
+                  | { __typename?: 'App' }
+                  | { __typename?: 'Issue' }
+                  | { __typename?: 'MarketplaceListing' }
+                  | { __typename?: 'Organization' }
+                  | { __typename?: 'PullRequest' }
+                  | ({ __typename?: 'Repository' } & Pick<
+                      Repository,
+                      | 'id'
+                      | 'name'
+                      | 'nameWithOwner'
+                      | 'createdAt'
+                      | 'updatedAt'
+                      | 'pushedAt'
+                      | 'stargazerCount'
+                      | 'openGraphImageUrl'
+                      | 'forkCount'
+                      | 'viewerHasStarred'
+                      | 'url'
+                      | 'description'
+                    > & {
+                        issues: { __typename?: 'IssueConnection' } & Pick<
+                          IssueConnection,
+                          'totalCount'
+                        >;
+                        watchers: { __typename?: 'UserConnection' } & Pick<
+                          UserConnection,
+                          'totalCount'
+                        >;
+                        primaryLanguage?: Maybe<
+                          { __typename?: 'Language' } & Pick<
+                            Language,
+                            'name' | 'color'
+                          >
+                        >;
+                        licenseInfo?: Maybe<
+                          { __typename?: 'License' } & Pick<
+                            License,
+                            'name' | 'nickname'
+                          >
+                        >;
+                      })
+                  | { __typename?: 'User' }
+                >;
+              }
+          >
+        >
+      >;
+    };
+};
+
 export type StarredMyRepositoriesQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -19746,6 +19865,129 @@ export type StarredMyRepositoriesQuery = { __typename?: 'Query' } & {
     };
 };
 
+export const AddStarDocument = gql`
+  mutation addStar($input: AddStarInput!) {
+    addStar(input: $input) {
+      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AddStarGQL extends Apollo.Mutation<
+  AddStarMutation,
+  AddStarMutationVariables
+> {
+  document = AddStarDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const RemoveStarDocument = gql`
+  mutation removeStar($input: RemoveStarInput!) {
+    removeStar(input: $input) {
+      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RemoveStarGQL extends Apollo.Mutation<
+  RemoveStarMutation,
+  RemoveStarMutationVariables
+> {
+  document = RemoveStarDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const SearchRepositoriesDocument = gql`
+  query searchRepositories(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $query: String!
+  ) {
+    search(
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+      query: $query
+      type: REPOSITORY
+    ) {
+      codeCount
+      issueCount
+      repositoryCount
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ... on Repository {
+            id
+            name
+            nameWithOwner
+            createdAt
+            updatedAt
+            pushedAt
+            stargazerCount
+            openGraphImageUrl
+            forkCount
+            viewerHasStarred
+            issues {
+              totalCount
+            }
+            watchers {
+              totalCount
+            }
+            primaryLanguage {
+              name
+              color
+            }
+            url
+            description
+            licenseInfo {
+              name
+              nickname
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SearchRepositoriesGQL extends Apollo.Query<
+  SearchRepositoriesQuery,
+  SearchRepositoriesQueryVariables
+> {
+  document = SearchRepositoriesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const StarredMyRepositoriesDocument = gql`
   query starredMyRepositories(
     $first: Int

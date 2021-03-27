@@ -6,8 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { StarredMyRepositoryEdge } from 'src/app/models/stars.model';
-import { Node } from 'src/app/models/stars.model';
+import { Repository } from 'src/app/models/search.model';
 @Component({
   selector: 'app-presentational-item',
   templateUrl: './item.component.html',
@@ -16,19 +15,19 @@ import { Node } from 'src/app/models/stars.model';
 })
 export class ItemComponent implements OnInit {
   @Input() isLastItem: boolean | undefined;
-  @Input() node: StarredMyRepositoryEdge['node'] | undefined;
-  @Output() addStarEvent = new EventEmitter<Node['id']>();
-  @Output() removeStarEvent = new EventEmitter<Node['id']>();
+  @Input() node: Repository | undefined;
+  @Output() addStarEvent = new EventEmitter<Repository['id']>();
+  @Output() removeStarEvent = new EventEmitter<Repository['id']>();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  addStar(id: Node['id']): void {
+  addStar(id: Repository['id']): void {
     this.addStarEvent.emit(id);
   }
 
-  removeStar(id: Node['id']): void {
+  removeStar(id: Repository['id']): void {
     this.removeStarEvent.emit(id);
   }
 }
