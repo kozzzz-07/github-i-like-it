@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApolloQueryResult, WatchQueryOptions } from '@apollo/client/core';
 import { ApolloService } from 'src/app/core/services/apollo.service';
-import {
-  SearchRepositoriesQueryVariables,
-} from 'src/app/models/graphql';
+import { SearchRepositoriesQueryVariables } from 'src/app/models/graphql';
 import { SEARCH_REPOSITORIES } from '../gql/search.query';
 import { Observable } from 'rxjs';
-import { SearchRepositories } from 'src/app/models/search.model';
+import { MySearchRepositoriesQuery } from 'src/app/models/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +14,7 @@ export class SearchService {
 
   watchQuerySearchRepositories(
     variables: SearchRepositoriesQueryVariables
-  ): Observable<ApolloQueryResult<SearchRepositories>> {
+  ): Observable<ApolloQueryResult<MySearchRepositoriesQuery>> {
     const options: WatchQueryOptions = {
       query: SEARCH_REPOSITORIES,
       variables,
@@ -25,6 +23,6 @@ export class SearchService {
 
     console.log(options);
 
-    return this.apolloService.watchQuery<SearchRepositories>(options);
+    return this.apolloService.watchQuery<MySearchRepositoriesQuery>(options);
   }
 }

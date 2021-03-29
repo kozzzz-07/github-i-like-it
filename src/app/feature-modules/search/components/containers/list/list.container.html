@@ -1,6 +1,8 @@
 <div class="contents">
   <mat-list class="main">
-    <app-presentational-subheader></app-presentational-subheader>
+    <app-presentational-subheader
+      (searchEvent)="onSearch($event)"
+    ></app-presentational-subheader>
     <ng-container *ngIf="edges$ | async as edges">
       <ng-container *ngFor="let edge of edges; last as last">
         <app-presentational-item

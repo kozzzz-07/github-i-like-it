@@ -16,20 +16,20 @@ interface NodeAndNoseState extends Weaken<RemoveNull<Tmp[0]>, 'node'> {
 }
 
 // edegesを復元
-interface SearchRepositoryEdges
+interface SearchRepositories
   extends Weaken<SearchRepositoriesQuery['search'], 'edges'> {
   edges?: Maybe<Array<Maybe<NodeAndNoseState>>>;
 }
 
 // NodeをRepository型で指定し直す
-export interface SearchRepositories
+export interface MySearchRepositoriesQuery
   extends Weaken<SearchRepositoriesQuery, 'search'> {
-  search: SearchRepositoryEdges;
+  search: SearchRepositories;
 }
 
-export type PageInfo = SearchRepositoryEdges['pageInfo'];
-export type RepositoryCount = SearchRepositoryEdges['repositoryCount'];
-export type Edges = SearchRepositoryEdges['edges'];
+export type PageInfo = SearchRepositories['pageInfo'];
+export type RepositoryCount = SearchRepositories['repositoryCount'];
+export type Edges = SearchRepositories['edges'];
 
 export type Repository = Extract<
   RemoveNull<PopArray<Edges>[0]>['node'],

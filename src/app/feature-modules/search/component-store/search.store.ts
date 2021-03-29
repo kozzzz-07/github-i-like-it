@@ -68,4 +68,8 @@ export class SearchStore extends ComponentStore<SearchState> {
   selectEdges(): Observable<Edges> {
     return this.select((state) => state.edges);
   }
+
+  selectRepositoryCount(): Observable<RepositoryCount> {
+    return this.select((state) => state.repositoryCount);
+  }
 }

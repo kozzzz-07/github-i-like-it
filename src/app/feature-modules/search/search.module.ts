@@ -8,6 +8,8 @@ import { SubheaderComponent } from './components/presentations/subheader/subhead
 import { MaterialModule } from 'src/app/shared/material.module';
 import { PaginationModule } from 'src/app/shared/components/pagination/pagination.module';
 import { CollapsibleErrorAreaModule } from 'src/app/shared/components/collapsible-error-area/collapsible-error-area.module';
+import { SearchFormComponent } from './components/containers/search-form/search-form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { CollapsibleErrorAreaModule } from 'src/app/shared/components/collapsibl
     ListContainerComponent,
     ItemComponent,
     SubheaderComponent,
+    SearchFormComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +25,7 @@ import { CollapsibleErrorAreaModule } from 'src/app/shared/components/collapsibl
     MaterialModule,
     PaginationModule,
     CollapsibleErrorAreaModule,
+    FormsModule,
   ],
 })
 export class SearchModule {}

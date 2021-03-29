@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   exports: [
@@ -26,6 +27,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatPaginatorModule,
     MatBadgeModule,
     MatTreeModule,
+    MatInputModule,
   ],
 })
 export class MaterialModule {}
