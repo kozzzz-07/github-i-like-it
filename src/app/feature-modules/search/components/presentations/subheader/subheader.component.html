@@ -1,20 +1,35 @@
 <div class="subheader">
-  <mat-form-field class="example-full-width">
-    <mat-label>Search Keyword</mat-label>
-    <input matInput placeholder="Ex. jQuery" [(ngModel)]="value" />
+  <form (ngSubmit)="onSearch(value)">
+    <mat-form-field class="form-width">
+      <mat-label>Repository Search Keyword</mat-label>
+      <input
+        matInput
+        placeholder="Ex. jQuery"
+        [(ngModel)]="value"
+        name="keyword"
+        required
+      />
+      <!-- TODO: Enter でこっちが反応しないようようにしたい -->
+      <button
+        mat-button
+        *ngIf="value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="value = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="!value">You must enter a value</mat-error>
+    </mat-form-field>
     <button
-      mat-button
-      *ngIf="value"
-      matSuffix
       mat-icon-button
-      aria-label="Clear"
-      (click)="value = ''"
+      aria-label="search icon"
+      type="submit"
+      [disabled]="!value"
     >
-      <mat-icon>close</mat-icon>
+      <mat-icon>search</mat-icon>
     </button>
-  </mat-form-field>
-  <button mat-icon-button aria-label="search icon" (click)="onSearch(value)">
-    <mat-icon>search</mat-icon>
-  </button>
+  </form>
 </div>
 <mat-divider></mat-divider>

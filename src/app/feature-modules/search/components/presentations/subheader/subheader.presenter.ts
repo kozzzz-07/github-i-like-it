@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable()
 export class SubheaderPresenter {
   private searchQuery = new Subject<string>();
 
-  searchQuery$ = this.searchQuery.pipe(map((keyword) => keyword.trim()));
+  searchQuery$ = this.searchQuery.pipe(
+    map(
+      (keyword) => keyword.trim(),
+      filter((keyword) => !!keyword)
+    )
+  );
 
   destroy(): void {
     this.searchQuery.complete();

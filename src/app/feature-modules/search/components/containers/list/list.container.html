@@ -12,7 +12,8 @@
       </ng-container>
     </ng-container>
   </mat-list>
-  <div class="pagination">
-    <app-pagination> </app-pagination>
+  <div *ngIf="selectRepositoryCount$ | async as totalCount" class="pagination">
+    <app-pagination [totalCount]="totalCount" (paginate)="onPaginate($event)">
+    </app-pagination>
   </div>
 </div>
