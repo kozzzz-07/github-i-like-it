@@ -19679,45 +19679,45 @@ export type ViewerHovercardContext = HovercardContext & {
   viewer: User;
 };
 
-export type AddStarMutationVariables = Exact<{
+export type AddSearchStarMutationVariables = Exact<{
   input: AddStarInput;
 }>;
 
-export type AddStarMutation = { __typename?: 'Mutation' } & {
+export type AddSearchStarMutation = { __typename?: 'Mutation' } & {
   addStar?: Maybe<
     { __typename?: 'AddStarPayload' } & Pick<
       AddStarPayload,
       'clientMutationId'
     > & {
         starrable?: Maybe<
-          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'id' | 'viewerHasStarred'>)
           | ({ __typename?: 'Repository' } & Pick<
               Repository,
-              'viewerHasStarred'
+              'id' | 'viewerHasStarred'
             >)
-          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'id' | 'viewerHasStarred'>)
         >;
       }
   >;
 };
 
-export type RemoveStarMutationVariables = Exact<{
+export type RemoveSearchStarMutationVariables = Exact<{
   input: RemoveStarInput;
 }>;
 
-export type RemoveStarMutation = { __typename?: 'Mutation' } & {
+export type RemoveSearchStarMutation = { __typename?: 'Mutation' } & {
   removeStar?: Maybe<
     { __typename?: 'RemoveStarPayload' } & Pick<
       RemoveStarPayload,
       'clientMutationId'
     > & {
         starrable?: Maybe<
-          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'id' | 'viewerHasStarred'>)
           | ({ __typename?: 'Repository' } & Pick<
               Repository,
-              'viewerHasStarred'
+              'id' | 'viewerHasStarred'
             >)
-          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'id' | 'viewerHasStarred'>)
         >;
       }
   >;
@@ -19798,6 +19798,50 @@ export type SearchRepositoriesQuery = { __typename?: 'Query' } & {
     };
 };
 
+export type AddStarMutationVariables = Exact<{
+  input: AddStarInput;
+}>;
+
+export type AddStarMutation = { __typename?: 'Mutation' } & {
+  addStar?: Maybe<
+    { __typename?: 'AddStarPayload' } & Pick<
+      AddStarPayload,
+      'clientMutationId'
+    > & {
+        starrable?: Maybe<
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Repository' } & Pick<
+              Repository,
+              'viewerHasStarred'
+            >)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+        >;
+      }
+  >;
+};
+
+export type RemoveStarMutationVariables = Exact<{
+  input: RemoveStarInput;
+}>;
+
+export type RemoveStarMutation = { __typename?: 'Mutation' } & {
+  removeStar?: Maybe<
+    { __typename?: 'RemoveStarPayload' } & Pick<
+      RemoveStarPayload,
+      'clientMutationId'
+    > & {
+        starrable?: Maybe<
+          | ({ __typename?: 'Gist' } & Pick<Gist, 'viewerHasStarred'>)
+          | ({ __typename?: 'Repository' } & Pick<
+              Repository,
+              'viewerHasStarred'
+            >)
+          | ({ __typename?: 'Topic' } & Pick<Topic, 'viewerHasStarred'>)
+        >;
+      }
+  >;
+};
+
 export type StarredMyRepositoriesQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -19865,11 +19909,12 @@ export type StarredMyRepositoriesQuery = { __typename?: 'Query' } & {
     };
 };
 
-export const AddStarDocument = gql`
-  mutation addStar($input: AddStarInput!) {
+export const AddSearchStarDocument = gql`
+  mutation addSearchStar($input: AddStarInput!) {
     addStar(input: $input) {
       clientMutationId
       starrable {
+        id
         viewerHasStarred
       }
     }
@@ -19879,21 +19924,22 @@ export const AddStarDocument = gql`
 @Injectable({
   providedIn: 'root',
 })
-export class AddStarGQL extends Apollo.Mutation<
-  AddStarMutation,
-  AddStarMutationVariables
+export class AddSearchStarGQL extends Apollo.Mutation<
+  AddSearchStarMutation,
+  AddSearchStarMutationVariables
 > {
-  document = AddStarDocument;
+  document = AddSearchStarDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
   }
 }
-export const RemoveStarDocument = gql`
-  mutation removeStar($input: RemoveStarInput!) {
+export const RemoveSearchStarDocument = gql`
+  mutation removeSearchStar($input: RemoveStarInput!) {
     removeStar(input: $input) {
       clientMutationId
       starrable {
+        id
         viewerHasStarred
       }
     }
@@ -19903,11 +19949,11 @@ export const RemoveStarDocument = gql`
 @Injectable({
   providedIn: 'root',
 })
-export class RemoveStarGQL extends Apollo.Mutation<
-  RemoveStarMutation,
-  RemoveStarMutationVariables
+export class RemoveSearchStarGQL extends Apollo.Mutation<
+  RemoveSearchStarMutation,
+  RemoveSearchStarMutationVariables
 > {
-  document = RemoveStarDocument;
+  document = RemoveSearchStarDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
@@ -19983,6 +20029,54 @@ export class SearchRepositoriesGQL extends Apollo.Query<
   SearchRepositoriesQueryVariables
 > {
   document = SearchRepositoriesDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const AddStarDocument = gql`
+  mutation addStar($input: AddStarInput!) {
+    addStar(input: $input) {
+      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AddStarGQL extends Apollo.Mutation<
+  AddStarMutation,
+  AddStarMutationVariables
+> {
+  document = AddStarDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const RemoveStarDocument = gql`
+  mutation removeStar($input: RemoveStarInput!) {
+    removeStar(input: $input) {
+      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RemoveStarGQL extends Apollo.Mutation<
+  RemoveStarMutation,
+  RemoveStarMutationVariables
+> {
+  document = RemoveStarDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

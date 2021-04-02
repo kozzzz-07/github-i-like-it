@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client/core';
 
 export const ADD_STAR = gql`
-  mutation addStar($input: AddStarInput!) {
+  mutation addSearchStar($input: AddStarInput!) {
     addStar(input: $input) {
       clientMutationId
       starrable {
+        id
         viewerHasStarred
       }
     }
@@ -12,10 +13,11 @@ export const ADD_STAR = gql`
 `;
 
 export const REMOVE_STAR = gql`
-  mutation removeStar($input: RemoveStarInput!) {
+  mutation removeSearchStar($input: RemoveStarInput!) {
     removeStar(input: $input) {
       clientMutationId
       starrable {
+        id
         viewerHasStarred
       }
     }

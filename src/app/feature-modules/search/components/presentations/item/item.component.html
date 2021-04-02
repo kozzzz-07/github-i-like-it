@@ -16,7 +16,7 @@
             >{{ node.nameWithOwner }}</a
           >
         </h2>
-        <ng-container *ngIf="!node.addable; else Addable">
+        <ng-container *ngIf="node.viewerHasStarred; else Addable">
           <button
             class="star-button"
             mat-stroked-button

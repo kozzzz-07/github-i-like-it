@@ -8,6 +8,8 @@
         <app-presentational-item
           [isLastItem]="last"
           [node]="edge?.node"
+          (addStarEvent)="addStar($event)"
+          (removeStarEvent)="removeStar($event)"
         ></app-presentational-item>
       </ng-container>
     </ng-container>

@@ -10,6 +10,13 @@ import {
   PreviousPage,
 } from 'src/app/models/pagination.model';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/components/pagination/consts/pagination';
+import { Repository } from 'src/app/models/search.model';
+import {
+  AddStarInput,
+  AddStarMutationVariables,
+  RemoveStarInput,
+  SearchRepositoriesQueryVariables,
+} from 'src/app/models/graphql';
 
 @Component({
   selector: 'app-container-list',
@@ -22,6 +29,10 @@ export class ListContainerComponent implements OnInit, OnDestroy {
   endCursor = '';
   keyword = '';
   pageSize = DEFAULT_PAGE_SIZE;
+  searchVariables: SearchRepositoriesQueryVariables = {
+    first: this.pageSize,
+    query: this.keyword,
+  };
 
   startCursor$ = this.searchStore.selectStartCursor().pipe(
     tap(() => {
@@ -69,10 +80,13 @@ export class ListContainerComponent implements OnInit, OnDestroy {
 
   onSearch(keyword: string): void {
     this.keyword = keyword;
-    this.searchStore.getSearchRepositories({
+
+    this.searchVariables = {
       first: this.pageSize,
       query: keyword,
-    });
+    };
+
+    this.searchStore.getSearchRepositories(this.searchVariables);
   }
 
   onPaginate(event: Readonly<PageChangeEvent>): void {
@@ -90,44 +104,66 @@ export class ListContainerComponent implements OnInit, OnDestroy {
   }
 
   private goFirst(event: PageChangeEvent): void {
-    const page: FirstPage & { query: string } = {
+    this.searchVariables = {
       first: event.pageSize,
       query: this.keyword,
     };
-    console.log('FirstPage', page);
+    console.log('FirstPage', this.searchVariables);
 
-    this.searchStore.getSearchRepositories(page);
+    this.searchStore.getSearchRepositories(this.searchVariables);
   }
 
   private goLast(event: PageChangeEvent): void {
-    const page: LastPage & { query: string } = {
+    this.searchVariables = {
       last: event.requestedLastSize,
       query: this.keyword,
     };
-    console.log('LastPage', page);
+    console.log('LastPage', this.searchVariables);
 
-    this.searchStore.getSearchRepositories(page);
+    this.searchStore.getSearchRepositories(this.searchVariables);
   }
 
   private goNext(event: PageChangeEvent): void {
-    const page: NextPage & { query: string } = {
+    this.searchVariables = {
       first: event.pageSize,
       after: this.endCursor,
       query: this.keyword,
     };
-    console.log('NextPage', page);
+    console.log('NextPage', this.searchVariables);
 
-    this.searchStore.getSearchRepositories(page);
+    this.searchStore.getSearchRepositories(this.searchVariables);
   }
 
   private goPrevious(event: PageChangeEvent): void {
-    const page: PreviousPage & { query: string } = {
+    this.searchVariables = {
       last: event.pageSize,
       before: this.startCursor,
       query: this.keyword,
     };
-    console.log('PreviousPage', page);
+    console.log('PreviousPage', this.searchVariables);
 
-    this.searchStore.getSearchRepositories(page);
+    this.searchStore.getSearchRepositories(this.searchVariables);
+  }
+
+  addStar(id: Repository['id']): void {
+    const input: AddStarInput = {
+      starrableId: id,
+    };
+
+    const mutationVariables: AddStarMutationVariables = {
+      input,
+    };
+
+    this.searchStore.addStar({
+      mutationVariables,
+      searchVariables: this.searchVariables,
+    });
+  }
+
+  removeStar(id: Repository['id']): void {
+    const input: RemoveStarInput = {
+      starrableId: id,
+    };
+    this.searchStore.removeStar({ input });
   }
 }

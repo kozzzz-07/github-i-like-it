@@ -14,7 +14,7 @@ export type Node = RemoveNull<Tmp[0]>['node'];
 // TODO: いい感じにできる型定義方法を知りたい
 type NodeState = {
   errorMessages?: ErrorMessage[];
-  addable?: boolean;
+  addable?: boolean; // 自前でボタンの状態を管理してみるパターンを試す
 };
 
 // StarredMyRepositoryConnectionのNodeをStarredNodeに置換する
