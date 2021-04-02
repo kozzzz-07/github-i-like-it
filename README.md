@@ -1,27 +1,58 @@
-# GithubILikeIt
+## 概要
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
+GitHub API を利用した WebApp
+OSS を検索し、スターをつけたり消したりする
 
-## Development server
+## 機能
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- 認可 OAuth
+  - Github アカウントを利用した 0AUth2 を使用する
+- 検索 Search
+  - Github API を利用して OSS の検索を可能にする
+- 一覧 Stars
+  - Github API をいいねをつけた OSS の一覧を表示する
 
-## Code scaffolding
+## 機能詳細
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 認可
 
-## Build
+- 認可されていなければサービスを利用できない
+- 認可されていなければ認可画面へリダイレクトする
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### 検索
 
-## Running unit tests
+- 検索テキストボックスが存在する
+- 検索ボタンが存在する
+  - 検索テキストボックスが空の時非活性
+  - 押下時、検索を実行する
+- 検索結果欄が存在する
+  - 検索結果の一覧を出す
+  - スターをつけられる
+  - スターを消せる
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 一覧
 
-## Running end-to-end tests
+- スターをつけた OSS の一覧を表示する
+- スターをつけられる
+- スターを消せる
+- OSS の概要を表示する
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## キーワード
 
-## Further help
+- GraphQL (client)
+- NgRx
+- OAuth(Git Hub API)
+  - Authorization Code Grant
+  - PKCE はない模様(?)
+    - コンフィデンシャルクライアントを想定
+      - firebase auth を利用する
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## 目的
+
+- OAuth に触れる
+- GraphQL (client) の勉強
+
+## link
+
+- https://github.com/firebase/firebaseui-web
+- https://docs.github.com/ja/free-pro-team@latest/graphql/overview/explorer
