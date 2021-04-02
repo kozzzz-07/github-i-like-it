@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "npx firebase deploy",
-    "local": "npx firebase serve --only hosting",
+    "deploy:local": "npx firebase serve --only hosting",
     "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "generate": "graphql-codegen --config codegen.yml"
   },
