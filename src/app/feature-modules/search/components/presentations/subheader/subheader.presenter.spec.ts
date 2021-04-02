@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SubheaderPresenter } from './subheader.presenter';
 
-import { PaginationComponent } from './pagination.component';
-
-describe('PaginationComponent', () => {
-  let component: PaginationComponent;
-  let fixture: ComponentFixture<PaginationComponent>;
+describe('SubheaderComponent', () => {
+  let component: SubheaderPresenter;
+  let fixture: ComponentFixture<SubheaderPresenter>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PaginationComponent],
+      declarations: [SubheaderPresenter],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaginationComponent);
+    fixture = TestBed.createComponent(SubheaderPresenter);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

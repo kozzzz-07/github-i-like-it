@@ -21,6 +21,13 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
+          import('./feature-modules/search/search.module').then(
+            (m) => m.SearchModule
+          ),
+      },
+      {
+        path: '',
+        loadChildren: () =>
           import('./feature-modules/stars/stars.module').then(
             (m) => m.StarsModule
           ),

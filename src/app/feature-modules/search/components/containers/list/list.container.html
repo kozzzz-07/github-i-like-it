@@ -1,0 +1,21 @@
+<div class="contents">
+  <mat-list class="main">
+    <app-presentational-subheader
+      (searchEvent)="onSearch($event)"
+    ></app-presentational-subheader>
+    <ng-container *ngIf="edges$ | async as edges">
+      <ng-container *ngFor="let edge of edges; last as last">
+        <app-presentational-item
+          [isLastItem]="last"
+          [node]="edge?.node"
+          (addStarEvent)="addStar($event)"
+          (removeStarEvent)="removeStar($event)"
+        ></app-presentational-item>
+      </ng-container>
+    </ng-container>
+  </mat-list>
+  <div *ngIf="selectRepositoryCount$ | async as totalCount" class="pagination">
+    <app-pagination [totalCount]="totalCount" (paginate)="onPaginate($event)">
+    </app-pagination>
+  </div>
+</div>
