@@ -51,6 +51,13 @@ OSS を検索し、スターをつけたり消したりする
 
 - OAuth に触れる
 - GraphQL (client) の勉強
+- NgRx の Component Store (使ってみたかったから使ってみた)
+
+## 反省
+GraphQLの特徴であるネストしたデータをフラットにする層として運用してみた。  
+ちょっと見通しが悪くなった気がする。  
+GraphQL は 用途ごとに Query 用意して ViewModel として運用し、素直につかったほうがいい？  
+mutation は effect に寄せもいいかもしれない。  
 
 ## link
 
